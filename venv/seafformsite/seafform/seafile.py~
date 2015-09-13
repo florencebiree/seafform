@@ -249,15 +249,11 @@ class Seafile:
         if password is None and token is None:
             raise ValueError
         elif token is not None: # token auth
-            if validate:
-                # try to validate the token
-                try:
-                    self._auth_ping(token)
-                except SeafileError:
-                    raise AuthError
-                else:
-                    self.token = token
-                    self.email = email
+            # try to validate the token
+            try:
+                self._auth_ping(token)
+            except SeafileError:
+                raise AuthError
             else:
                 self.token = token
                 self.email = email
