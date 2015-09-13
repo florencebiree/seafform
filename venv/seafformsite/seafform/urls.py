@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
-#       seafform/models.py
+#       seafform/urls.py
 #       
 #       Copyright © 2015, Florian Birée <florian@biree.name>
 #       
@@ -20,7 +20,7 @@
 #       along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #       
 ###############################################################################
-"""Seafform forms description"""
+"""Seafform URL dispatcher"""
 
 __author__ = "Florian Birée"
 __version__ = "0.1"
@@ -29,19 +29,11 @@ __copyright__ = "Copyright © 2015, Florian Birée <florian@biree.name>"
 __revision__ = "$Revision: $"
 __date__ = "$Date: $"
 
-from django.db import models
-from django.contrib.auth.models import User
 
-class SeafileUser(models.Model):
-    """Profile class for user"""
-    user = models.OneToOneField(User)
-    seafroot = models.URLField()
-    seaftoken = models.CharField(max_length=40)
+from django.conf.urls import patterns, url
 
-class Form(models.Model):
-    """Represent a Seafform"""
-    owner = models.ForeignKey(SeafileUser)
-    filepath = models.CharField(max_length=256)
-    formid = models.CharField(max_length=40)
-    # filepath
-    # id (pk)
+from seafform import views
+
+urlpatterns = patterns('',
+    url(r'^$', views.index, name='index'),
+)
