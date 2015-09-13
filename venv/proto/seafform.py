@@ -1,0 +1,305 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+###############################################################################
+#       seafform.py
+#       
+#       Copyright © 2015, Florian Birée <florian@biree.name>
+#       
+#       This file is a part of seafform.
+#       
+#       This program is free software: you can redistribute it and/or modify
+#       it under the terms of the GNU General Public License as published by
+#       the Free Software Foundation, either version 3 of the License, or
+#       (at your option) any later version.
+#       
+#       This program is distributed in the hope that it will be useful,
+#       but WITHOUT ANY WARRANTY; without even the implied warranty of
+#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#       GNU General Public License for more details.
+#       
+#       You should have received a copy of the GNU General Public License
+#       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#       
+###############################################################################
+"""Seafform forms description"""
+
+__author__ = "Florian Birée"
+__version__ = "0.1"
+__license__ = "GPLv3"
+__copyright__ = "Copyright © 2015, Florian Birée <florian@biree.name>"
+__revision__ = "$Revision: $"
+__date__ = "$Date: $"
+
+import os
+import ezodf
+import shutil
+from tempfile import NamedTemporaryFile
+
+class InvalidODS(Exception):
+    """Raise when the ODS file doesn't respect the specification for Seafform
+    """
+    pass
+
+class Field:
+    """Base class for form fields"""
+    
+    def __init__(self, label, description=None, params=None, required=False, 
+                       value=None):
+        """Initialize a new field"""
+        self.label = label
+        self.description = description
+        self.params = params
+        self.required = required
+        self.value = value
+    
+    def __repr__(self):
+        if hasattr(self, 'ident'):
+            ftype = self.ident
+        else:
+            ftype = 'Field'
+        return '<{0}({1}){2}>'.format(
+            ftype,
+            self.label,
+            ('*' if self.required else '')
+        )
+
+class TextField(Field):
+    """Single-line text field"""
+    ident = 'text'
+
+class LongTextField(Field):
+    """Multiline text field"""
+    ident = 'longtext'
+
+class ListField(Field):
+    """List of choices field"""
+    ident = 'list'
+    
+    def __init__(self, *args):
+        Field.__init__(self, *args)
+        self.choices = [
+            ch.strip() for ch in self.params.split(',')
+        ]
+
+class BooleanField(Field):
+    """Checkbox field"""
+    ident = 'check'
+
+    def __init__(self, *args):
+        Field.__init__(self, *args)
+        self.value = False
+
+class BooleanTrueField(Field):
+    """Checked checkbox field"""
+    ident = 'checked'
+
+    def __init__(self, *args):
+        Field.__init__(self, *args)
+        self.value = True
+
+class DateField(Field):
+    """Date field"""
+    ident = 'date'
+
+class NumberField(Field):
+    """Number field"""
+    ident = 'number'
+
+def field_of(ident):
+    """Return the Field subclass corresponding to `ident`"""
+    return [
+        cls for cls in Field.__subclasses__() if cls.ident == ident
+    ][0]
+
+
+class SeafForm:
+    """Build and fill a form from an OpenDocumentSpreadsheet file"""
+
+    _availables_f_ident = [cls.ident for cls in Field.__subclasses__()]
+
+    def __init__(self, filepath, seaf=None, repo_id=None):
+        """Initialize a form for the file `filepath`.
+
+            If seaf is a Seafile instance, repo_id must be the
+            Seafile identifier of the repository where `filepath` is.
+
+            If seaf is None, load `filepath` from the local filesystem
+        """
+        # source properties
+        self.filepath = filepath
+        self.seaf = seaf
+        self.repo_id = repo_id
+        self.loaded = False
+
+        # form properties
+        self.title = None
+        self.description = None
+        self.fields = None
+        self.data = None
+        self.view_as = None # ('table' or 'form')
+        self.edit = None
+
+        # cached items
+        self.mtime = None
+        self._odsfile = None
+
+    def __repr__(self):
+        """Representation of the form"""
+        if self.loaded:
+            return "<SeafForm({0}:{1})>".format(self.filepath, self.title)
+        else:
+            return "<SeafForm({0}:unloaded)>".format(self.filepath)
+
+    def load(self):
+        """Load form data from the ODS file"""
+        odsopener = self._seaf_open if self.seaf else self._local_open
+        
+        seaf_f = odsopener()
+        # save spreadsheet into a temporary file
+        with NamedTemporaryFile(delete=False) as tmpfile:
+            shutil.copyfileobj(seaf_f, tmpfile)
+            tmpname = tmpfile.name
+        seaf_f.close()
+        
+        # open spreadsheet document
+        self.odsfile = ezodf.opendoc(tmpname)
+        # delete tmp file
+        os.unlink(tmpname)
+        
+        
+        # get the Data sheet
+        try:
+            datash = self.odsfile.sheets['Data']
+        except KeyError:
+            raise InvalidODS 
+        
+        # get Properties
+        self.title = datash['A7'].value
+        self.description = datash['A9'].value
+        self.view_as = datash['A11'].value
+        self.edit = (datash['A13'].value == 'True')
+        
+        # get fields
+        self.fields = []
+        for colid in range(1, datash.ncols()):
+            # get column
+            col = datash.column(colid)
+            # get field data
+            fname   = col[0].value
+            fformat = col[1].value
+            fparams = col[2].value
+            fdesc   = col[3].value
+            # col[4:] is data
+            
+            # build field object (if fformat is known)
+            if fformat and fformat.strip('*') in self._availables_f_ident:
+                frequired = (fformat.endswith('*'))
+                FType = field_of(fformat.rstrip('*'))
+                self.fields.append(FType(
+                    fname, fdesc, fparams, frequired
+                ))
+        
+        # get data
+        #TODO
+        
+        # get mtime
+        if self.seaf:
+            s = self.seaf.stat_file(self.repo_id, self.filepath)
+            self.mtime = float(s['mtime'])
+        else:
+            self.mtime = os.path.getmtime(self.filepath)
+        
+        self.loaded = True
+
+    def _seaf_open(self):
+        """Return an opened file-like object from Seafile"""
+        return self.seaf.open_file(self.repo_id, self.filepath)
+
+    def _local_open(self):
+        """Return an opened file object from local filesystem"""
+        return open(self.filepath, 'rb')
+    
+    def post(self, values, replace_row=None):
+        """Post data from values into the ODS file
+
+            values is the dict of {ident: value}
+            optionaly replace values from the row `replace_row`
+            
+            WARNING: type and required verification must be done before
+        """
+        # get new mtime
+        if self.seaf:
+            s = self.seaf.stat_file(self.repo_id, self.filepath)
+            new_mtime = float(s['mtime'])
+        else:
+            new_mtime = os.path.getmtime(self.filepath)
+        # if mtime has changed:
+        if self.mtime != new_mtime:
+            self.load() # reload
+        
+        # get the Data sheet
+        try:
+            datash = self.odsfile.sheets['Data']
+        except KeyError:
+            raise InvalidODS 
+        
+        
+        # save data in a new line
+        # TODO: replace a line
+        
+        if replace_row is None:
+            # find the first empty line
+            rowid = datash.nrows() - 1
+            bcol = datash.column(1)
+            for celid in reversed(range(4, datash.nrows())):
+                if not bcol[celid].value:
+                    rowid = celid
+                else:
+                    break
+            for colid in range(1, datash.ncols()):
+                # check if rowid is empty for all the row
+                # go down until empty
+                while datash[rowid, colid].value:
+                    rowid += 1
+            
+        else:
+            rowid = replace_row
+        
+        print('edit row', rowid)
+        
+        # fill the row with values
+        for colid in range(1, datash.ncols()):
+            column = datash.column(colid)
+            fname = column[0].value
+            if fname in values:
+                column[rowid].set_value(values[fname])
+        
+        if self.seaf:        
+            # save spreadsheet into a temporary file
+            with NamedTemporaryFile(delete=False) as tmpfile:
+                # ezodf realy doesn't like file-like objects…
+                tmpname = tmpfile.name
+            self.odsfile.saveas(tmpname)
+                
+            # update distant file
+            with open(tmpname, 'rb') as fileo:
+                self.seaf.update_file(self.repo_id, self.filepath, fileo)
+            # unlink tmp file
+            os.unlink(tmpname)
+        else:
+            # save spreadsheet into the local file
+            self.odsfile.saveas(self.filepath)
+
+# if form and not edit:
+    # form -> ok
+# if form and eidt
+    # form -> table [edit]
+# if table and not edit:
+    # table -> [new]
+# if table and edit:
+    # table [edit]
+
+if __name__ == '__main__':
+    #tests
+    sform = SeafForm('../..//seafform-test/inscriptions.ods')
+    sform.load()
