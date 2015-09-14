@@ -1,0 +1,14 @@
+<ul class="jqueryFileTree" style="display: none;">
+    {% for node in result %}
+        
+        {% if node.type == "file" %}
+            <li class="file ext_ods">
+                <a href="#" rel="{{ node.path }}">{{ node.name }}</a>
+            </li>
+        {% else %}
+            <li class="directory collapsed">
+                <a href="#" rel="{{ node.path }}">{{ node.name }}</a>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>

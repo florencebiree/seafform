@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrapform',
     'seafform',
 )
 
@@ -85,3 +86,4 @@ STATIC_URL = '/static/'
 
 # Seafform settings
 SEAFILE_ROOT = 'https://docs.tila.im/'
+TPL_URL = 'https://docs.tila.im/d/908b45b3b6/'

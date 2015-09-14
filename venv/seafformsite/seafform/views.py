@@ -30,12 +30,13 @@ __revision__ = "$Revision: $"
 __date__ = "$Date: $"
 
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import csrf_exempt
 from seafform.models import SeafileUser, Form
-from seafform.forms import LoginForm
+from seafform.forms import LoginForm, NewFormForm
 from seafform.seafile import Seafile, AuthError
 from seafformsite.settings import SEAFILE_ROOT, TPL_URL
 
@@ -117,5 +118,90 @@ def logout_view(request):
     # Redirect to a success page.
     return HttpResponseRedirect('/?action=logout')
 
+@login_required(login_url='index')
 def new(request):
-    pass
+    """Create a new form"""
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = NewFormForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # create the form and redirect
+            pass
+    else:
+        form = NewFormForm()
+    
+    return render(request, 'seafform/new.html', {
+        'user': request.user,
+        'newformform': form,
+    })
+
+# utility function
+def parse(seafpath):
+    """Return a seafile path under the form :
+            {
+                'repo_name':
+                'path'
+            }
+        the root of all libraries has repo_id == None 
+    """
+    seafpath = seafpath.strip('/').split('/')
+    if seafpath == ['']:
+        # root
+        return {'repo_name': None, 'repo_id': None, 'path': None}
+    else:
+        return {
+            'repo_name': seafpath[0],
+            'path': '/' + '/'.join(seafpath[1:])
+        }
+
+def repo_id_from_name(seaf, repo_name):
+    """Return the repo_id from a repo_name"""
+    repo_list = seaf.list_repos()
+    for repo in repo_list:
+        if repo['name'] == repo_name:
+            return repo['id']
+    return None
+
+@csrf_exempt # the javascript lib user POST, but no data changes here
+@login_required(login_url='index')
+def lsdir(request):
+    """Return the list of files in a Seafile directory"""
+    if request.method == 'POST':
+        path = request.POST['dir']
+        # Connect to Seafile
+        seafu = request.user.seafileuser
+        seaf = Seafile(seafu.seafroot)
+        seaf.authenticate(request.user.email, token=seafu.seaftoken, validate=False)
+        # list the directory
+        parsed_path = parse(path)
+        # root of all libraries
+        if parsed_path['repo_name'] is None:
+            repo_list = seaf.list_repos()
+            result = [
+                {
+                    'name': repo['name'],
+                    'type': repo['type'],
+                    'path': '/%s/' % repo['name'],
+                } for repo in repo_list 
+            ]
+        else:
+            repo_name, dirpath = parsed_path['repo_name'], parsed_path['path']
+            repo_id = repo_id_from_name(seaf, repo_name)
+            ls = seaf.list_dir(repo_id, dirpath)
+            result = [
+                {
+                    'name': node['name'],
+                    'type': node['type'],
+                    'path': (
+                        path.rstrip('/') + '/' + node['name'] + 
+                        ('/' if node['type'] == 'dir' else '')
+                    )
+                } for node in ls
+                  if (node['type'] == 'dir' or node['name'].endswith('.ods'))
+            ]
+        return render(request, 'seafform/lsdir.html', {'result': result})
+    raise Http404("Bad request method")
+
+        

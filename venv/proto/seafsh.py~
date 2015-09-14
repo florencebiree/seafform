@@ -327,6 +327,10 @@ class SeafFormCli:
                     continue # not valid
                 if not value:
                     # no required, so valid
+                    if f.ident == 'check':
+                        value = False
+                    elif f.ident == 'checked':
+                        value = True
                     valid = True
                 elif f.ident == 'number':
                     try:

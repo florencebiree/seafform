@@ -160,6 +160,7 @@ class SeafBrowser:
                 } for repo in self.repo_cache
             ]
         else:
+            
             repo_id, dirpath = parsed_path['repo_id'], parsed_path['path']
             try:
                 ls = self.ls_cache[repo_id][dirpath]

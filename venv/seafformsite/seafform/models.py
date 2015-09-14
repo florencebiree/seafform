@@ -42,5 +42,6 @@ class Form(models.Model):
     """Represent a Seafform"""
     owner = models.ForeignKey(User)
     filepath = models.CharField(max_length=256)
+    repoid = models.CharField(max_length=40)
     formid = models.CharField(max_length=40, primary_key=True)
     title = models.CharField(max_length=100)

@@ -35,8 +35,9 @@ from django.conf.urls import patterns, url
 from seafform import views
 
 urlpatterns = patterns('',
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.index, name='index'), 
     url(r'^private/$', views.private, name='private'),
     url(r'^private/logout/$', views.logout_view, name='logout'),
     url(r'^private/new/$', views.new, name='new'),
+    url(r'^private/lsdir/$', views.lsdir, name='lsdir'),
 )
