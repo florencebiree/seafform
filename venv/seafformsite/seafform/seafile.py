@@ -115,7 +115,7 @@ def curlify(request):
     return (
         'curl -v ' +
         ('-X PUT ' if request.method == 'PUT' else '') +
-        (('-d "%s" ' % request.body.decode('utf-8')) if request.body else '') +
+        (('-d "%s" ' % request.body) if request.body else '') +
         ' '.join("-H '%s: %s'" % (k, v) for (k, v) in request.headers.items()) +
         ' ' +
         request.url
@@ -262,13 +262,17 @@ class Seafile:
                 self.token = token
                 self.email = email
         else: # password auth
-            resp = self._api(POST, 'auth-token/', data={
-                'username': email,
-                'password': password
-            }, token=False)
-            if resp['token']:
-                self.token = resp['token']
-                self.email = email
+            try:
+                resp = self._api(POST, 'auth-token/', data={
+                    'username': email,
+                    'password': password
+                }, token=False)
+            except:
+                raise AuthError
+            else:
+                if resp['token']:
+                    self.token = resp['token']
+                    self.email = email
     
     # test methods
     

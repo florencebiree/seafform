@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+
+{% block title %}Formulaires Seafile{% endblock %}
+
+{% block body %}
+
+<div class="container theme-showcase" role="main">
+
+    <div class="jumbotron">
+        <h1>Formulaires Seafile</h1>
+        
+        <p>Un sondage ? Des inscriptions ?</p>
+        <p>Créer simplement un formulaire à partir d'un tableur
+            <a href="https://fr.libreoffice.org/">LibreOffice</a>, et récupérez
+            directement les résultats dans <a href="http://www.seafile.com/"
+            >Seafile</a> !
+        </p>
+    </div>
+    
+    <div class="row"><div class="col-md-6 col-md-offset-3">
+    
+    {% if justlogout %}
+        <div class="alert alert-info" role="alert">
+        <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+            Salut, et merci encore pour tout le poisson !
+        </div>
+    {% endif %}
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Se connecter pour créer un formulaire</h3>
+        </div>
+        <div class="panel-body">
+            <p>
+                Vous devez avoir un compte sur le Seafile
+                <a href="{{ seaf_root }}">{{ seaf_root }}</a>, et utiliser
+                les mêmes identifiants pour créer un formulaire.
+            </p>
+            
+            {% if autherror %}
+                <div class="alert alert-warning" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Erreur :</span>
+                    identifiants invalides
+                </div>
+            {% endif %}
+            
+            <form action="{% url 'index'  %}" method="post">
+                {% csrf_token %}
+                {{ loginform|bootstrap }}
+                <input class="btn btn-default" type="submit" value="Submit" />
+            </form>
+
+        </div>
+    </div>
+    
+    </div></div>
+
+{% endblock %}

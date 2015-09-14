@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Formulaires Seafile{% endblock %}
+
+{% block body %}
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand active" href="{% url 'private' %}">{{ user.email }}</a>
+    </div>
+    
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="{% url 'new' %}">Nouveau formulaire</a></li>
+        <li><a href="{{ user.seafileuser.seafroot }}" target="_blank">Ouvrir Seafile</a></li>
+        <li><a href="{% url 'logout' %}">Se déconnecter</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="row"><div class="col-md-6 col-md-offset-3">
+
+
+<div class="page-header">
+    <h1>Créer un formulaire</h1>
+</div>
+<div class="well">
+    <h2><small>1. créer le tableur avec les questions</small></h2>
+    
+    <a type="button" class="btn btn-info pull-right"
+        href="{{ tplurl }}" target="_blank">Modèles de formulaires</a>
+    
+    <p>
+        Il suffit de télécharger un modèle, de le modifier, et de le 
+        synchroniser dans Seafile.
+    </p>
+    
+    <h2 class="clearfix"><small>2. créer le formulaire</small></h2>
+    
+    <a type="button" class="btn btn-info pull-right"
+        href="{% url 'new' %}">Créer un nouveau formulaire</a>
+
+    <p>
+        Indiquez quel est le tableur en question.
+    </p>
+    
+    <h2 class="clearfix"><small>3. invitez vos amis à répondre</small></h2>
+    
+    <p>
+        Envoyez l'adresse publique du formulaire à toutes les personnes
+        concernées !
+    </p>
+    
+</div>
+
+<!-- dev -->
+<!--<div class="panel">
+    <div class="panel-heading">
+        <h3 class="panel-title">Infos de développement</h3>
+    </div>
+    <div class="panel-body">
+        <ul>
+            <li>User: {{ user.email }}</li>
+            <li>Seafroot: {{ user.seafileuser.seafroot }}</li>
+            <li>Token: {{ user.seafileuser.seaftoken }}</li>
+        </ul>
+    </div>
+</div>
+-->
+<!-- end dev -->
+
+<ul>
+{% for form in forms %}
+    <li>{{ form.title }}</li>
+{% endfor %}
+</ul>
+
+
+</div></div>
+
+
+{% endblock %}

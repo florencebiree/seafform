@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
-#       seafform/urls.py
+#       seafform/forms.py
 #       
 #       Copyright © 2015, Florian Birée <florian@biree.name>
 #       
@@ -20,7 +20,7 @@
 #       along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #       
 ###############################################################################
-"""Seafform URL dispatcher"""
+"""Seafform Django forms description"""
 
 __author__ = "Florian Birée"
 __version__ = "0.1"
@@ -29,14 +29,8 @@ __copyright__ = "Copyright © 2015, Florian Birée <florian@biree.name>"
 __revision__ = "$Revision: $"
 __date__ = "$Date: $"
 
+from django import forms
 
-from django.conf.urls import patterns, url
-
-from seafform import views
-
-urlpatterns = patterns('',
-    url(r'^$', views.index, name='index'),
-    url(r'^private/$', views.private, name='private'),
-    url(r'^private/logout/$', views.logout_view, name='logout'),
-    url(r'^private/new/$', views.new, name='new'),
-)
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
