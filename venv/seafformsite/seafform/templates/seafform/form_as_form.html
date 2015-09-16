@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+
+{% block title %}{{ seafform.title }}{% endblock %}
+
+{% block headers %}
+<style>
+    .required:after {
+        font-family: "Glyphicons Halflings";
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1;
+        font-size: 70%;
+        color: #2AABD2;
+        content: " "; //glyphicon glyphicon-record
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="container theme-showcase" role="main">
+
+    <div class="jumbotron clearfix">
+    
+        <img 
+            src="/static/seafform/images/telephone-man-150px.png" 
+            class="img-responsive pull-left hidden-xs"
+            alt="Telephoning woman picture"
+            style="margin:1em;"
+            aria-hidden="true"
+        >
+        
+        <h1>{{ seafform.title }}</h1>
+        
+        {{ seafform.description|linebreaks }}
+    </div>
+    
+    <div class="row"><div class="col-md-6 col-md-offset-3">
+    
+    <form action="{{ seafform.get_absolute_url }}" method="post">
+        {% csrf_token %}
+        {{ djform|bootstrap }}
+        <input class="btn btn-default" type="submit" value="Valider" />
+    </form>
+    
+    <p aria-hidden="true">
+        <span class="required"></span> : champs obligatoirs.
+    </p>
+
+    </div></div>
+</div>
+
+{% endblock %}

@@ -87,3 +87,8 @@ STATIC_URL = '/static/'
 # Seafform settings
 SEAFILE_ROOT = 'https://docs.tila.im/'
 TPL_URL = 'https://docs.tila.im/d/908b45b3b6/'
+ROOT_URL = 'http://127.0.0.1:8000'
+
+# Seafform dev setting
+LOCAL = False
+LOCAL_ROOT = '/media/docs/prog/seafform/seafform-test/'

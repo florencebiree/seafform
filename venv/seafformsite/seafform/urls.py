@@ -40,4 +40,6 @@ urlpatterns = patterns('',
     url(r'^private/logout/$', views.logout_view, name='logout'),
     url(r'^private/new/$', views.new, name='new'),
     url(r'^private/lsdir/$', views.lsdir, name='lsdir'),
+    url(r'^form/(?P<formid>.{40})/$', views.formview, name='form'),
+    url(r'^form/(?P<formid>.{40})/thanks/$', views.thanks, name='thanks'),
 )

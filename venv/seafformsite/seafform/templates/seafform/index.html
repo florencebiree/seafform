@@ -7,7 +7,15 @@
 
 <div class="container theme-showcase" role="main">
 
-    <div class="jumbotron">
+    <div class="jumbotron clearfix">
+        
+        <img 
+            src="/static/seafform/images/telephone-woman-150px.png" 
+            class="img-responsive pull-right hidden-xs" 
+            alt="Telephoning woman picture"
+            aria-hidden="true"
+        >
+        
         <h1>Formulaires Seafile</h1>
         
         <p>Un sondage ? Des inscriptions ?</p>
@@ -49,7 +57,7 @@
             <form action="{% url 'index'  %}" method="post">
                 {% csrf_token %}
                 {{ loginform|bootstrap }}
-                <input class="btn btn-default" type="submit" value="Submit" />
+                <input class="btn btn-default" type="submit" value="Se connecter" />
             </form>
 
         </div>

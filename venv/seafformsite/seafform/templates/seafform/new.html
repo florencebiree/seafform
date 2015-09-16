@@ -3,7 +3,7 @@
 {% block title %}Formulaires Seafile{% endblock %}
 
 {% block headers%}
-    <link href="/static/seafform/jqueryFileTree.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="/static/jqueryfiletree/jqueryFileTree.css" rel="stylesheet" type="text/css" media="screen" />
 {% endblock %}
 
 {% block body %}
@@ -38,20 +38,35 @@
 <div class="page-header">
     <h1>Créer un formulaire</h1>
 </div>
+
+
+<p>
+    Sélectionnez dans votre Seafile le tableur LibreOffice (.ods) qui sera
+    à la base du formulaire :
+</p>
+    
 <div class="well">
-
-    <p>
-        Sélectionnez dans votre Seafile le tableur LibreOffice (.ods) qui sera
-        à la base du formulaire :
-    </p>
-    
-    <div id="seaf-browser"></div>
-    
-    <input type="text" id="path"></input>
-
-    <!-- Annuler                                Valider -->
-    
+    <div id="seaf-browser">
+        <ul class="jqueryFileTree start">
+            <li class="wait">Connexion à Seafile…<li>
+        </ul>
+    </div>
 </div>
+    
+<nav class="navbar navbar-default"><div class="container-fluid">
+    <ul class="nav navbar-nav hidden-xs hidden-sm">
+        <li>
+            <a href="{% url "private" %}">Annuler</a>
+        </li>
+    </ul>
+    
+    <form class="navbar-form navbar-right" action="{% url 'new'  %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="path" id="path" value=""></input>
+        <input class="btn btn-success" type="submit" value="Valider"
+            disabled="disabled" />
+    </form>
+</div></nav>
 
 </div></div>
 
@@ -59,14 +74,18 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="/static/seafform/jqueryFileTree.js" type="text/javascript"></script>
+    <script src="/static/jqueryfiletree/jqueryFileTree.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(document).ready( function() {
             $('#seaf-browser').fileTree({
                 root: '/',
                 script: '/private/lsdir/',
-            }, function(file) {
+                //loadMessage: 'Chargement…',
+            }, function(file, filenode) {
+                $('.selected-file').removeClass('bg-info selected-file')
+                $(filenode).addClass('bg-info selected-file'),
                 $('#path').val(file);
+                $('input.btn-success').removeAttr('disabled');
             });
         });
     </script>

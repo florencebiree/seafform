@@ -30,11 +30,60 @@ __revision__ = "$Revision: $"
 __date__ = "$Date: $"
 
 from django import forms
+import seafform.seafform as seafform
 
 class LoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
+    # autofocus to email
+    email.widget.attrs.update({'autofocus' : 'autofocus'})
 
-class NewFormForm(forms.Form):
-    repo_id = forms.CharField()
-    path = forms.CharField()
+class DjForm(forms.Form):
+    
+    required_css_class = 'required'
+    
+    rowid = forms.CharField(widget=forms.HiddenInput, initial='newrow')
+    
+    def __init__(self, *args, **kwargs):
+        """Add one more arguments:
+            fieldlist: a seafform.Fields list
+        """
+        fieldlist = kwargs.pop('fieldlist')
+        super(DjForm, self).__init__(*args, **kwargs)
+        
+        firstfield = None
+        
+        for field in fieldlist:
+            stdparams = {
+                'label': field.label,
+                'required': field.required,
+                'help_text': field.description,
+            }
+            if isinstance(field, seafform.TextField):
+                self.fields[field.label] = forms.CharField(**stdparams)
+            elif isinstance(field, seafform.LongTextField):
+                params = stdparams.copy()
+                params.update(widget = forms.Textarea)
+                self.fields[field.label] = forms.CharField(**params)
+            elif isinstance(field, seafform.ListField):
+                params = stdparams.copy()
+                params.update(choices = ((c, c) for c in field.choices))
+                self.fields[field.label] = forms.ChoiceField(**params)
+            elif isinstance(field, seafform.BooleanField):
+                params = stdparams.copy()
+                params.update(initial = False)
+                self.fields[field.label] = forms.BooleanField(**params)
+            elif isinstance(field, seafform.BooleanTrueField):
+                params = stdparams.copy()
+                params.update(initial = True)
+                self.fields[field.label] = forms.BooleanField(**params)
+            elif isinstance(field, seafform.DateField):
+                self.fields[field.label] = forms.DateField(**stdparams)
+            elif isinstance(field, seafform.NumberField):
+                self.fields[field.label] = forms.FloatField(**stdparams)
+            
+            if firstfield is None:
+                firstfield = self.fields[field.label]
+        
+        # add autofocus to the first one
+        firstfield.widget.attrs.update({'autofocus' : 'autofocus'})

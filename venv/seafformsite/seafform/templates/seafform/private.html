@@ -30,7 +30,6 @@
 
 <div class="row"><div class="col-md-6 col-md-offset-3">
 
-
 <div class="page-header">
     <h1>Créer un formulaire</h1>
 </div>
@@ -63,27 +62,65 @@
     
 </div>
 
-<!-- dev -->
-<!--<div class="panel">
-    <div class="panel-heading">
-        <h3 class="panel-title">Infos de développement</h3>
+{% if newform %}
+    <div class="alert alert-info" role="alert">
+    <p>
+        Le formulaire <q>{{ newform.title }}</q> a été créé avec succès ! 
+        Communiquez l'adresse suivante à vos correspondants :
+    <p>
+    <p>
+        <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+        <a href="{{ newform.get_absolute_url }}" target="_blank"
+            >{{ newform.get_absolute_url }}</a>
+    </p>
     </div>
-    <div class="panel-body">
-        <ul>
-            <li>User: {{ user.email }}</li>
-            <li>Seafroot: {{ user.seafileuser.seafroot }}</li>
-            <li>Token: {{ user.seafileuser.seaftoken }}</li>
-        </ul>
-    </div>
-</div>
--->
-<!-- end dev -->
+{% endif %}
 
+{% if deleted %}
+    <div class="alert alert-info" role="alert">
+    <p>
+        Le formulaire <q>{{ deleted }}</q> a bien été supprimé. Son lien public
+        a été désactivé.
+    </p>
+    </div>
+{% endif %}
+
+{% if forms %}
+    <table class="table table-condensed">
+        <tr><th>Titre</th><th>Adresse</th><th>Actions</th></tr>
+        {% for form in forms %}
+            <tr>
+                <th>{{ form.title }}</th>
+                <td>
+                    <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+                    <a href="{{ form.get_absolute_url }}" target="_blank"
+                    >{{ form.get_absolute_url }}</a>
+                    <br />
+                    <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                    <samp>/{{ form.reponame }}{{ form.filepath }}</samp>
+                </td>
+                <td>
+                    <form action="{% url 'private' %}" method="post">
+                        {% csrf_token %}
+                        <input 
+                            type="hidden" name="deleteid"
+                            value="{{ form.formid }}"
+                        />
+                        <input
+                            class="close" type="submit" value="&times;"
+                            aria-label="Supprimer"
+                        />
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+
+<!-- TODO: bootstrap table -->
+<!-- TODO: sort by date, recent firs (need, date)-->
 <ul>
-{% for form in forms %}
-    <li>{{ form.title }}</li>
-{% endfor %}
-</ul>
 
 
 </div></div>

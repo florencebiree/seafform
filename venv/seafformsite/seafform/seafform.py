@@ -34,6 +34,11 @@ import ezodf
 import shutil
 from tempfile import NamedTemporaryFile
 
+HEADERS_ROW = 4 # number of headers row in ods files
+#all_less_maxcount strategy doesn't work
+# trying all_but_last, then all
+#ezodf.config.set_table_expand_strategy('all_but_last')
+
 class InvalidODS(Exception):
     """Raise when the ODS file doesn't respect the specification for Seafform
     """
@@ -141,6 +146,7 @@ class SeafForm:
         # cached items
         self.mtime = None
         self._odsfile = None
+        self._first_empty_row = None
 
     def __repr__(self):
         """Representation of the form"""
@@ -199,7 +205,13 @@ class SeafForm:
                 ))
         
         # get data
-        #TODO
+        self.data = []
+        first_empy_row = self._get_first_empty_row(recompute=True)
+        for rowid in range(HEADERS_ROW, first_empy_row):
+            row = datash.row(rowid)
+            self.data.append([
+                row[celid].value for celid in range(1, len(self.fields) + 1)
+            ])
         
         # get mtime
         if self.seaf:
@@ -217,6 +229,36 @@ class SeafForm:
     def _local_open(self):
         """Return an opened file object from local filesystem"""
         return open(self.filepath, 'rb')
+    
+    def _get_first_empty_row(self, recompute=False):
+        """Return the first empty row number
+            if recompute, do not use the cached value
+        """
+        if self._first_empty_row is not None and not recompute:
+            return self._first_empty_row
+        
+        # get the Data sheet
+        try:
+            datash = self.odsfile.sheets['Data']
+        except KeyError:
+            raise InvalidODS 
+                
+        # find the first empty row
+        rowid = datash.nrows() - 1
+        bcol = datash.column(1)
+        for celid in reversed(range(HEADERS_ROW, datash.nrows())):
+            if not bcol[celid].value:
+                rowid = celid
+            else:
+                break
+        for colid in range(1, datash.ncols()):
+            # check if rowid is empty for all the row
+            # go down until empty
+            while (rowid < datash.nrows() and datash[rowid, colid].value):
+                rowid += 1
+        
+        self._first_empty_row = rowid 
+        return rowid
     
     def post(self, values, replace_row=None):
         """Post data from values into the ODS file
@@ -243,35 +285,29 @@ class SeafForm:
             raise InvalidODS 
         
         
-        # save data in a new line
-        # TODO: replace a line
-        
+        # save data in a new line        
         if replace_row is None:
-            # find the first empty line
-            rowid = datash.nrows() - 1
-            bcol = datash.column(1)
-            for celid in reversed(range(4, datash.nrows())):
-                if not bcol[celid].value:
-                    rowid = celid
-                else:
-                    break
-            for colid in range(1, datash.ncols()):
-                # check if rowid is empty for all the row
-                # go down until empty
-                while datash[rowid, colid].value:
-                    rowid += 1
-            
+            rowid = self._get_first_empty_row()
+            self.data.append([])
+            self._first_empty_row += 1
         else:
             rowid = replace_row
-        
-        print('edit row', rowid)
         
         # fill the row with values
         for colid in range(1, datash.ncols()):
             column = datash.column(colid)
             fname = column[0].value
-            if fname in values:
-                column[rowid].set_value(values[fname])
+            if fname in values and values[fname]:
+                try:
+                    column[rowid].set_value(values[fname])
+                except IndexError:
+                    # add row
+                    datash.append_rows(1)
+                    column = datash.column(colid)
+                    column[rowid].set_value(values[fname])
+                self.data[rowid - HEADERS_ROW].append(values[fname])
+            else:
+                self.data[rowid - HEADERS_ROW].append(None)
         
         if self.seaf:        
             # save spreadsheet into a temporary file
@@ -282,23 +318,11 @@ class SeafForm:
                 
             # update distant file
             with open(tmpname, 'rb') as fileo:
-                self.seaf.update_file(self.repo_id, self.filepath, fileo)
+                fid = self.seaf.update_file(self.repo_id, self.filepath, fileo)
+                print('update, id:', fid)
             # unlink tmp file
             os.unlink(tmpname)
         else:
             # save spreadsheet into the local file
             self.odsfile.saveas(self.filepath)
 
-# if form and not edit:
-    # form -> ok
-# if form and eidt
-    # form -> table [edit]
-# if table and not edit:
-    # table -> [new]
-# if table and edit:
-    # table [edit]
-
-if __name__ == '__main__':
-    #tests
-    sform = SeafForm('../..//seafform-test/inscriptions.ods')
-    sform.load()
