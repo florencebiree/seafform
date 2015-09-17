@@ -41,8 +41,9 @@ class LoginForm(forms.Form):
 class DjForm(forms.Form):
     
     required_css_class = 'required'
-    
+
     rowid = forms.CharField(widget=forms.HiddenInput, initial='newrow')
+    rowid.isstatic = False
     
     def __init__(self, *args, **kwargs):
         """Add one more arguments:
@@ -82,9 +83,14 @@ class DjForm(forms.Form):
                 djfield = forms.DateField(**stdparams)
             elif isinstance(field, seafform.NumberField):
                 djfield = forms.FloatField(**stdparams)
+            elif isinstance(field, seafform.StaticField):
+                djfield = forms.CharField(widget=forms.HiddenInput)
+                djfield.isstatic = True
             
             if djfield is not None:
                 self.fields[field.label] = djfield
+                if not hasattr(djfield, 'isstatic'):
+                    djfield.isstatic = False
             
             if firstfield is None:
                 firstfield = self.fields[field.label]

@@ -9,3 +9,25 @@ http://www.abeautifulsite.net/jquery-file-tree/
 
 date / edit table:
 http://jqueryhouse.com/50-jquery-bootstrap-plugins-for-your-next-projects/
+
+meta forms
+https://jacobian.org/writing/dynamic-form-generation/
+
+TODO:
+
+main:
+    - 404
+    - i18n
+    - theme
+    - footer
+
+seafform
+
+form_as_form:
+    -date field
+
+form_as_table:
+    - si longue table, fixer les headers
+    - static field / test
+    - date field
+    - edit line + cancel -> save in seafform bug

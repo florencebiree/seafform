@@ -60,4 +60,6 @@ class Form(models.Model):
 
     def get_absolute_url(self):
         """Return the public url of the form"""
-        return urljoin(settings.ROOT_URL, reverse('form', args=(self.formid,)))
+        u = urljoin(settings.ROOT_URL, reverse('form', args=(self.formid,)))
+        print(u)
+        return u

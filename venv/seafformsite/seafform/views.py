@@ -339,6 +339,7 @@ def formview(request, formid):
         # form view
         return render(request, 'seafform/form_as_form.html', {
             'seafform': seafform,
+            'modelform': form,
             'djform': djform,
         })
         
@@ -346,11 +347,43 @@ def formview(request, formid):
         # table view    
         return render(request, 'seafform/form_as_table.html', {
             'seafform': seafform,
+            'modelform': form,
             'djform': djform,
             'justaddedrow': justaddedrow,
         })
 
     raise Http404
+
+def formrowedit(request, formid, rowid):
+    """Generate a form to edit rowid in formid"""
+    rowid = int(rowid) + HEADERS_ROW
+    # get the form object
+    try:
+        form = Form.objects.get(formid=formid)
+    except Form.DoesNotExist:
+        raise Http404
+    # get the seafform object (Seafile connexion)
+    if settings.LOCAL:
+        seaf = None
+    else:
+        seafu = form.owner.seafileuser
+        seaf = Seafile(seafu.seafroot)
+        seaf.authenticate(form.owner.email, token=seafu.seaftoken, validate=False)
+    seafform = SeafForm(form.filepath, seaf, form.repoid)
+    seafform.load()
+    # create the django form for a specific row
+    initials = seafform.get_values_from_data(rowid)
+    initials['rowid'] = rowid - HEADERS_ROW
+    djform = DjForm(
+        initials,
+        fieldlist=seafform.fields
+    )
+    return render(request, 'seafform/rowedit.html', {
+        'seafform': seafform,
+        'djform': djform,
+        'modelform': form,
+        'rowid': rowid - HEADERS_ROW,
+    })
 
 def thanks(request, formid):
     """Display the Thanks page"""

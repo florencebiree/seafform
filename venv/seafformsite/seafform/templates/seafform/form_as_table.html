@@ -38,6 +38,8 @@
     </div>
     
     <div class="table-responsive">
+    <form action="{{ modelform.get_absolute_url }}" method="post">
+    {% csrf_token %}
     <table class="table table-striped">
         <tr>
         {% for field in seafform.fields %}
@@ -48,7 +50,10 @@
         
         <tbody>
         {% for row in seafform.data %}
-            <tr {% if forloop.counter0 == justaddedrow %}class="success"{% endif %}>
+            <tr 
+                {% if forloop.counter0 == justaddedrow %}class="success"{% endif %} 
+                id="row-{{ forloop.counter0 }}"
+            >
                 {% for value in row %}
                     {% if value == True %}
                         <td>
@@ -61,13 +66,33 @@
                         <td>{{ value|linebreaks }}</td>
                     {% endif %}
                 {% endfor %}
-                <td><!-- TODO edit --></td>
+                <td>
+                    <button class="btn btn-default row-edit" 
+                            type="button"
+                            onclick="rowedit({{ forloop.counter0}})">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>        
+                    </button>
+                </td>
             </tr>
+            {% if seafform.edit %}
+                <tr id="row-{{ forloop.counter0}}-edit" class="hidden success">
+                    {% for value in row %}
+                        {% if forloop.first %}
+                            <td>Chargement...</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                    {% endfor %}
+                    <td>
+                    <button class="btn btn-default invisible" type="button"
+                        aria-hidden="true">spacer</button>
+                    </td>
+                </tr>
+            {% endif %}
         {% endfor %}
         
         
-        <tr><form action="{{ seafform.get_absolute_url }}" method="post">
-            {% csrf_token %}
+        <tr id="newrow-edit">
             {% for field in djform.hidden_fields %}
                 {{ field }}
             {% endfor %}
@@ -77,11 +102,14 @@
                 </td>
             {% endfor %}
             <td>
-                <input class="btn btn-default" type="submit" value="Valider" />
+                <button class="btn btn-success" type="submit" aria-label="Valider">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                </button>
             </td>
-        </form></tr>
+        </tr>
         </tbody>
     </table>
+    </form>
     </div>
     
     <p aria-hidden="true" class="text-right">
@@ -93,4 +121,31 @@
     </div></div>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        function rowedit(rowid) {
+            // hide the rowid line
+            $("#row-" + rowid).addClass("hidden");
+            // hide and disable the newrow form
+            $("#newrow-edit input").attr('disabled', 'disabled');
+            $("#newrow-edit").addClass("invisible");
+            // show the rowidid-edit line
+            $("#row-" + rowid + "-edit").removeClass("hidden");
+            $("#row-" + rowid + "-edit").load(
+                "{{ modelform.get_absolute_url }}" + rowid + "/"
+            );
+        };
+        function rowcancel(rowid) {
+            // remove the rowid-edit line
+            $("#row-" + rowid + "-edit").html("<td>Chargement...</td>");
+            $("#row-" + rowid + "-edit").addClass("hidden");
+            // show the rowid line
+            $("#row-" + rowid).removeClass("hidden");
+            // show and enable the newrow form
+            $("#newrow-edit input").removeAttr('disabled');
+            $("#newrow-edit").removeClass("invisible"); 
+        }
+    </script>
 {% endblock %}

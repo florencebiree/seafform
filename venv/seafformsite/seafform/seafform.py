@@ -109,6 +109,10 @@ class NumberField(Field):
     """Number field"""
     ident = 'number'
 
+class StaticField(Field):
+    """Non-editable field"""
+    ident = 'static'
+
 def field_of(ident):
     """Return the Field subclass corresponding to `ident`"""
     return [
@@ -221,7 +225,7 @@ class SeafForm:
             self.mtime = os.path.getmtime(self.filepath)
         
         self.loaded = True
-
+    
     def _seaf_open(self):
         """Return an opened file-like object from Seafile"""
         return self.seaf.open_file(self.repo_id, self.filepath)
@@ -327,3 +331,9 @@ class SeafForm:
             # save spreadsheet into the local file
             self.odsfile.saveas(self.filepath)
 
+    def get_values_from_data(self, row_id):
+        """Build the dict of {'name': value} for row_id from self.data"""
+        vals = {}
+        for i, field in enumerate(self.fields):
+            vals[field.label] = self.data[row_id - HEADERS_ROW][i]
+        return vals

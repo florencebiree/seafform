@@ -42,4 +42,5 @@ urlpatterns = patterns('',
     url(r'^private/lsdir/$', views.lsdir, name='lsdir'),
     url(r'^form/(?P<formid>.{40})/$', views.formview, name='form'),
     url(r'^form/(?P<formid>.{40})/thanks/$', views.thanks, name='thanks'),
+    url(r'^form/(?P<formid>.{40})/(?P<rowid>\d*)/$', views.formrowedit, name='rowedit'),
 )
