@@ -58,29 +58,33 @@ class DjForm(forms.Form):
                 'label': field.label,
                 'required': field.required,
                 'help_text': field.description,
-            }
+            } 
+            djfield = None
             if isinstance(field, seafform.TextField):
-                self.fields[field.label] = forms.CharField(**stdparams)
+                djfield = forms.CharField(**stdparams)
             elif isinstance(field, seafform.LongTextField):
                 params = stdparams.copy()
                 params.update(widget = forms.Textarea)
-                self.fields[field.label] = forms.CharField(**params)
+                djfield = forms.CharField(**params)
             elif isinstance(field, seafform.ListField):
                 params = stdparams.copy()
                 params.update(choices = ((c, c) for c in field.choices))
-                self.fields[field.label] = forms.ChoiceField(**params)
+                djfield = forms.ChoiceField(**params)
             elif isinstance(field, seafform.BooleanField):
                 params = stdparams.copy()
                 params.update(initial = False)
-                self.fields[field.label] = forms.BooleanField(**params)
+                djfield = forms.BooleanField(**params)
             elif isinstance(field, seafform.BooleanTrueField):
                 params = stdparams.copy()
                 params.update(initial = True)
-                self.fields[field.label] = forms.BooleanField(**params)
+                djfield = forms.BooleanField(**params)
             elif isinstance(field, seafform.DateField):
-                self.fields[field.label] = forms.DateField(**stdparams)
+                djfield = forms.DateField(**stdparams)
             elif isinstance(field, seafform.NumberField):
-                self.fields[field.label] = forms.FloatField(**stdparams)
+                djfield = forms.FloatField(**stdparams)
+            
+            if djfield is not None:
+                self.fields[field.label] = djfield
             
             if firstfield is None:
                 firstfield = self.fields[field.label]

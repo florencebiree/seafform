@@ -298,6 +298,7 @@ class SeafForm:
             column = datash.column(colid)
             fname = column[0].value
             if fname in values and values[fname]:
+                value = (1 if values[fname] is True else  values[fname])
                 try:
                     column[rowid].set_value(values[fname])
                 except IndexError:

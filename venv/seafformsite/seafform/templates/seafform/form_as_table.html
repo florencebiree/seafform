@@ -34,6 +34,7 @@
         <h1>{{ seafform.title }}</h1>
         
         {{ seafform.description|linebreaks }}
+        
     </div>
     
     <div class="table-responsive">
@@ -67,14 +68,13 @@
         
         <tr><form action="{{ seafform.get_absolute_url }}" method="post">
             {% csrf_token %}
-            {% for field in djform %}
-                {% if field.name == 'rowid' %}
-                    {{ field }}
-                {% else %}
+            {% for field in djform.hidden_fields %}
+                {{ field }}
+            {% endfor %}
+            {% for field in djform.visible_fields %}
                 <td>
-                    {{ field }}
+                    {{ field|bootstrap }}
                 </td>
-                {% endif %}
             {% endfor %}
             <td>
                 <input class="btn btn-default" type="submit" value="Valider" />
@@ -83,6 +83,10 @@
         </tbody>
     </table>
     </div>
+    
+    <p aria-hidden="true" class="text-right">
+        <span class="required"></span> : <em>champs obligatoires.</em>
+    </p>
     
     <div class="row"><div class="col-md-6 col-md-offset-3">
 
