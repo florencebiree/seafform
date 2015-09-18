@@ -238,7 +238,6 @@ def lsdir(request):
         path = request.POST['dir']
         if settings.LOCAL:
             abspath = settings.LOCAL_ROOT.rstrip('/') +  path
-            print('looking at ', abspath)
             result = [
                 {
                     'name': name,
@@ -253,7 +252,6 @@ def lsdir(request):
                   if (os.path.isdir(os.path.join(abspath, name)) 
                         or name.endswith('.ods'))
             ]
-            print(result)
         else:
             # Connect to Seafile
             seafu = request.user.seafileuser
@@ -328,7 +326,11 @@ def formview(request, formid):
                 # redirect to thanks
                 return HttpResponseRedirect(reverse('thanks',args=(formid,)))
             elif seafform.view_as == 'form':
-                results = True # redirect to table
+                return HttpResponseRedirect(
+                    reverse('form',args=(formid,)) + '?results'
+                )
+                #results = True # redirect to table
+                
             # clean fields
             djform = DjForm(fieldlist=seafform.fields)
     else:

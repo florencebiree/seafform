@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load bootstrap %}
+{% load utils %}
 
 {% block title %}{{ seafform.title }}{% endblock %}
 
@@ -65,8 +66,12 @@
                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                             <span class="sr-only">Ok</span>
                         </td>
+                    {% elif value|get_type == "float" %}
+                        <td>{{ value|floatformat:"-2" }}</td>
                     {% else %}
-                        <td>{{ value|default:""|linebreaks }}</td>
+                        <td>
+                            {{ value|default:""|linebreaks }}
+                        </td>
                     {% endif %}
                 {% endfor %}
                 <td>

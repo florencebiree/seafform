@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
-#       seafform/models.py
+#       seafform/templatetags/utils.py
 #       
 #       Copyright © 2015, Florian Birée <florian@biree.name>
 #       
@@ -29,35 +29,10 @@ __copyright__ = "Copyright © 2015, Florian Birée <florian@biree.name>"
 __revision__ = "$Revision: $"
 __date__ = "$Date: $"
 
-from django.db import models
-from django.contrib.auth.models import User
-from django.conf import settings
-from django.core.urlresolvers import reverse
-from urllib.parse import urljoin
+from django import template
 
-class SeafileUser(models.Model):
-    """Profile class for user"""
-    user = models.OneToOneField(User)
-    seafroot = models.URLField()
-    seaftoken = models.CharField(max_length=40)
-    
-    def __repr__(self):
-        return "<SeafileProfile(%s)>" % self.user.email
+register = template.Library()
 
-class Form(models.Model):
-    """Represent a Seafform"""
-    owner = models.ForeignKey(User)
-    filepath = models.CharField(max_length=256)
-    repoid = models.CharField(max_length=40)
-    reponame = models.CharField(max_length=256)
-    formid = models.CharField(max_length=40, primary_key=True)
-    title = models.CharField(max_length=100)
-    description = models.CharField(max_length=1000)
-    creation_datetime = models.DateTimeField(auto_now_add=True)
-
-    def __repr__(self):
-        return "<Form(%s, %s)>" % (self.title, self.owner.email)
-
-    def get_absolute_url(self):
-        """Return the public url of the form"""
-        return urljoin(settings.ROOT_URL, reverse('form', args=(self.formid,)))
+@register.filter
+def get_type(value):
+    return type(value).__name__

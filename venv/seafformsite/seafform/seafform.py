@@ -302,18 +302,18 @@ class SeafForm:
             column = datash.column(colid)
             fname = column[0].value
             if fname in values and values[fname]:
-                value = (1 if values[fname] is True else  values[fname])
+                value = (1 if values[fname] is True else values[fname])
                 try:
-                    column[rowid].set_value(values[fname])
+                    column[rowid].set_value(value)
                 except IndexError:
                     # add row
                     datash.append_rows(1)
                     column = datash.column(colid)
-                    column[rowid].set_value(values[fname])
+                    column[rowid].set_value(value)
                 try:
-                    self.data[rowid - HEADERS_ROW][colid - 1] = values[fname]
+                    self.data[rowid - HEADERS_ROW][colid - 1] = value
                 except IndexError:
-                    self.data[rowid - HEADERS_ROW].append(values[fname])
+                    self.data[rowid - HEADERS_ROW].append(value)
             else:
                 try:
                     self.data[rowid - HEADERS_ROW][colid - 1] = None
@@ -330,7 +330,6 @@ class SeafForm:
             # update distant file
             with open(tmpname, 'rb') as fileo:
                 fid = self.seaf.update_file(self.repo_id, self.filepath, fileo)
-                print('update, id:', fid)
             # unlink tmp file
             os.unlink(tmpname)
         else:
