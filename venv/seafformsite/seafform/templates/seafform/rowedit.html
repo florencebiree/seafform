@@ -1,19 +1,26 @@
 {% load bootstrap %}
 
-{% for field in djform.hidden_fields %}
-    {{ field }}
+{% for field in djform %}
+    {% if field.is_hidden %}
+        {{ field }}
+        {% if field.field.isstatic %}
+            <td>
+                <p class="form-control-static">{{ field.value|default:"" }}</p>
+            </td>
+        {% endif %}
+    {% else %}
+        <td>
+            {{ field|bootstrap }}
+        </td>
+    {% endif %}
 {% endfor %}
-{% for field in djform.visible_fields %}
-    <td>
-        {{ field|bootstrap }}
-    </td>
-{% endfor %}
+
 <td>
     <div class="btn-group-vertical" role="group">
-        <button class="btn btn-success" type="submit" aria-label="Ok">
+        <button class="btn btn-success btn-xs" type="submit" aria-label="Ok">
             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
         </button>
-        <button class="btn btn-default" type="button" aria-label="Annuler"
+        <button class="btn btn-default btn-xs" type="button" aria-label="Annuler"
             onclick="rowcancel({{ rowid }})">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         </button>

@@ -54,10 +54,11 @@
             </div>
         {% endif %}
         {% for field in djform %}
-            {% if field.is_hidden and not field.field.isstatic %}
+            {% if field.is_hidden %}
                 {{ field }}
-            {% elif field.field.isstatic %}
-                <p>{{ field.value }}</p>
+                {% if field.field.isstatic %}
+                    <p class="form-control-static">{{ field.value }}</p>
+                {% endif %}
             {% else %}
                 {{ field|bootstrap }}
             {% endif %}

@@ -87,7 +87,11 @@
 
 {% if forms %}
     <table class="table table-condensed">
-        <tr><th>Titre</th><th>Adresse</th><th>Actions</th></tr>
+        <tr><th>Titre</th><th>Adresse</th>
+            <th class="text-center">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                <span class="sr-only">Action</span>
+        </th></tr>
         {% for form in forms %}
             <tr>
                 <th>{{ form.title }}</th>

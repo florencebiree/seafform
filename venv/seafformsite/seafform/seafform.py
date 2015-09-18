@@ -310,9 +310,15 @@ class SeafForm:
                     datash.append_rows(1)
                     column = datash.column(colid)
                     column[rowid].set_value(values[fname])
-                self.data[rowid - HEADERS_ROW].append(values[fname])
+                try:
+                    self.data[rowid - HEADERS_ROW][colid - 1] = values[fname]
+                except IndexError:
+                    self.data[rowid - HEADERS_ROW].append(values[fname])
             else:
-                self.data[rowid - HEADERS_ROW].append(None)
+                try:
+                    self.data[rowid - HEADERS_ROW][colid - 1] = None
+                except IndexError:
+                    self.data[rowid - HEADERS_ROW].append(None)
         
         if self.seaf:        
             # save spreadsheet into a temporary file

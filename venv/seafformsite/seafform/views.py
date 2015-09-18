@@ -373,7 +373,7 @@ def formrowedit(request, formid, rowid):
     seafform.load()
     # create the django form for a specific row
     initials = seafform.get_values_from_data(rowid)
-    initials['rowid'] = rowid - HEADERS_ROW
+    initials['rowid'] = rowid
     djform = DjForm(
         initials,
         fieldlist=seafform.fields

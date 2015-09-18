@@ -22,12 +22,12 @@ main:
     - footer
 
 seafform
+    - edit & not new row
 
 form_as_form:
-    -date field
+    - date field
 
 form_as_table:
     - si longue table, fixer les headers
-    - static field / test
     - date field
-    - edit line + cancel -> save in seafform bug
+    - bug success qui dépasse
