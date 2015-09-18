@@ -30,9 +30,15 @@ __revision__ = "$Revision: $"
 __date__ = "$Date: $"
 
 from django import template
+from django.forms.extras.widgets import SelectDateWidget
 
 register = template.Library()
 
 @register.filter
 def get_type(value):
     return type(value).__name__
+
+@register.filter
+def is_date(field):
+    return isinstance(field.field.widget, SelectDateWidget)
+

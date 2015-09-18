@@ -32,6 +32,8 @@ __date__ = "$Date: $"
 import os
 import ezodf
 import shutil
+import time
+import datetime
 from tempfile import NamedTemporaryFile
 
 HEADERS_ROW = 4 # number of headers row in ods files
@@ -96,7 +98,7 @@ class BooleanField(Field):
 class BooleanTrueField(Field):
     """Checked checkbox field"""
     ident = 'checked'
-
+    
     def __init__(self, *args):
         Field.__init__(self, *args)
         self.value = True
@@ -213,9 +215,18 @@ class SeafForm:
         first_empy_row = self._get_first_empty_row(recompute=True)
         for rowid in range(HEADERS_ROW, first_empy_row):
             row = datash.row(rowid)
-            self.data.append([
-                row[celid].value for celid in range(1, len(self.fields) + 1)
-            ])
+            row_data = []
+            for celid in range(1, len(self.fields) + 1):
+                val = row[celid].value
+                if self.fields[celid-1].ident == 'date' and val:
+                    try:
+                        s_time = time.strptime(val, '%Y-%m-%d')
+                    except ValueError:
+                        pass # keep val as str
+                    else:
+                        val = datetime.date(*s_time[:3])
+                row_data.append(val)
+            self.data.append(row_data)
         
         # get mtime
         if self.seaf:

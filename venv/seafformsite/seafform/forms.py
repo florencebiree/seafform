@@ -30,6 +30,7 @@ __revision__ = "$Revision: $"
 __date__ = "$Date: $"
 
 from django import forms
+from django.forms.extras.widgets import SelectDateWidget
 import seafform.seafform as seafform
 
 class LoginForm(forms.Form):
@@ -80,7 +81,12 @@ class DjForm(forms.Form):
                 params.update(initial = True)
                 djfield = forms.BooleanField(**params)
             elif isinstance(field, seafform.DateField):
-                djfield = forms.DateField(**stdparams)
+                params = stdparams.copy()
+                params.update(widget = SelectDateWidget)
+                djfield = forms.DateField(**params)
+                djfield.widget.attrs.update(
+                    {'style': 'width: 32%; display: inline-block;'}
+                )
             elif isinstance(field, seafform.NumberField):
                 djfield = forms.FloatField(**stdparams)
             elif isinstance(field, seafform.StaticField):

@@ -16,18 +16,18 @@ https://jacobian.org/writing/dynamic-form-generation/
 TODO:
 
 main:
-    - 404
     - i18n
     - theme
     - footer
+    - agpl
+    - install instructions
+    - readme
 
 seafform
     - edit & not new row
 
 form_as_form:
-    - date field
 
 form_as_table:
     - si longue table, fixer les headers
-    - date field
     - bug success qui dépasse
