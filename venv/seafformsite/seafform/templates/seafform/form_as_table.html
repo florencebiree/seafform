@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {# encoding: utf-8 #}
-{% load bootstrap %}
-{% load utils %}
-
+{% load bootstrap utils i18n %}
 {% block title %}{{ seafform.title }}{% endblock %}
 
 {% block headers %}
@@ -50,7 +48,7 @@
         {% endfor %}
             <th>
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                <span class="sr-only">Action</span>
+                <span class="sr-only">{% trans "Action" %}</span>
             </th> 
         </tr>
         </thead>
@@ -65,7 +63,7 @@
                     {% if value == True %}
                         <td>
                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                            <span class="sr-only">Ok</span>
+                            <span class="sr-only">{% trans "Submit" %}</span>
                         </td>
                     {% elif value|get_type == "float" %}
                         <td>{{ value|floatformat:"-2" }}</td>
@@ -89,7 +87,7 @@
                 <tr id="row-{{ forloop.counter0}}-edit" class="hidden success">
                     {% for value in row %}
                         {% if forloop.first %}
-                            <td>Chargement...</td>
+                            <td>{% trans "Loading..." %}</td>
                         {% else %}
                             <td></td>
                         {% endif %}
@@ -119,7 +117,7 @@
                 {% endif %}
             {% endfor %}
             <td>
-                <button class="btn btn-success btn-xs" type="submit" aria-label="Valider">
+                <button class="btn btn-success btn-xs" type="submit" aria-label="{% trans "Submit" %}">
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                 </button>
             </td>
@@ -130,7 +128,9 @@
     </div>
     
     <p aria-hidden="true" class="text-right">
+        {% blocktrans %}
         <span class="required"></span> : <em>champs obligatoires.</em>
+        {% endblocktrans %}
     </p>
     
     <div class="row"><div class="col-md-6 col-md-offset-3">
@@ -144,7 +144,7 @@
     <script type="text/javascript">
         function rowedit(rowid) {
             // remove an existing current-edit line
-            $(".current-edit").html("<td>Chargement...</td>");
+            $(".current-edit").html("<td>{% trans "Loading..." %}</td>");
             $(".current-edit").addClass("hidden");
             $(".current-edit").removeClass("current-edit");
             $(".current-row").removeClass("hidden current-row");
@@ -162,7 +162,7 @@
         };
         function rowcancel(rowid) {
             // remove the rowid-edit line
-            $("#row-" + rowid + "-edit").html("<td>Chargement...</td>");
+            $("#row-" + rowid + "-edit").html("<td>{% trans "Loading..." %}</td>");
             $("#row-" + rowid + "-edit").removeClass("current-edit");
             $("#row-" + rowid + "-edit").addClass("hidden");
             // show the rowid line

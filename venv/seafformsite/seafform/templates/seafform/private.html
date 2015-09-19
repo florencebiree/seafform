@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}Formulaires Seafile{% endblock %}
+{% block title %}{% trans "Seafile forms" %}{% endblock %}
 
 {% block body %}
 
@@ -9,7 +10,7 @@
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
+        <span class="sr-only">{% trans "Toggle navigation" %}</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -20,9 +21,9 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="{% url 'new' %}">Nouveau formulaire</a></li>
-        <li><a href="{{ user.seafileuser.seafroot }}" target="_blank">Ouvrir Seafile</a></li>
-        <li><a href="{% url 'logout' %}">Se déconnecter</a></li>
+        <li><a href="{% url 'new' %}">{% trans "New form" %}</a></li>
+        <li><a href="{{ user.seafileuser.seafroot }}" target="_blank">{% trans "Open Seafile" %}</a></li>
+        <li><a href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
       </ul>
     </div>
   </div>
@@ -31,33 +32,36 @@
 <div class="row"><div class="col-md-6 col-md-offset-3">
 
 <div class="page-header">
-    <h1>Créer un formulaire</h1>
+    <h1>{% trans "Create a new form" %}</h1>
 </div>
 <div class="well">
-    <h2><small>1. créer le tableur avec les questions</small></h2>
+    <h2><small>{% trans "1. create the spreadsheet with questions" %}</small></h2>
     
     <a type="button" class="btn btn-info pull-right"
-        href="{{ tplurl }}" target="_blank">Modèles de formulaires</a>
+        href="{{ tplurl }}" target="_blank">{% trans "Forms templates" %}</a>
     
     <p>
-        Il suffit de télécharger un modèle, de le modifier, et de le 
-        synchroniser dans Seafile.
+        {% blocktrans %}
+        You just need to download a template, to edit it, and to synchronize
+        it in Seafile.
+        {% endblocktrans %}
     </p>
     
-    <h2 class="clearfix"><small>2. créer le formulaire</small></h2>
+    <h2 class="clearfix"><small>{% trans "2. create the form" %}</small></h2>
     
     <a type="button" class="btn btn-info pull-right"
-        href="{% url 'new' %}">Créer un nouveau formulaire</a>
+        href="{% url 'new' %}">{% trans "Create a new form" %}</a>
 
     <p>
-        Indiquez quel est le tableur en question.
+        {% trans "Select the right spreadsheet." %}
     </p>
     
-    <h2 class="clearfix"><small>3. invitez vos amis à répondre</small></h2>
+    <h2 class="clearfix"><small>{% trans "3. ask people to answer" %}</small></h2>
     
     <p>
-        Envoyez l'adresse publique du formulaire à toutes les personnes
-        concernées !
+        {% blocktrans %}
+        Send the form's public address to all affected persons!
+        {% endblocktrans %}
     </p>
     
 </div>
@@ -65,9 +69,11 @@
 {% if newform %}
     <div class="alert alert-info" role="alert">
     <p>
-        Le formulaire <q>{{ newform.title }}</q> a été créé avec succès ! 
-        Communiquez l'adresse suivante à vos correspondants :
-    <p>
+        {% blocktrans with title=newform.title %}
+        The form <q>{{title}}</q> was sucessfully created! Share the
+        following address with interseted people:
+        {% endblocktrans %}
+    </p>
     <p>
         <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
         <a href="{{ newform.get_absolute_url }}" target="_blank"
@@ -79,18 +85,19 @@
 {% if deleted %}
     <div class="alert alert-info" role="alert">
     <p>
-        Le formulaire <q>{{ deleted }}</q> a bien été supprimé. Son lien public
-        a été désactivé.
+        {% blocktrans %}
+        The form <q>{{ deleted }}</q> was deleted. Its public link is disabled.
+        {% endblocktrans %}
     </p>
     </div>
 {% endif %}
 
 {% if forms %}
     <table class="table table-condensed">
-        <tr><th>Titre</th><th>Adresse</th>
+        <tr><th>{% trans "Title" %}</th><th>{% trans "Address" %}</th>
             <th class="text-center">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                <span class="sr-only">Action</span>
+                <span class="sr-only">{% trans "Action" %}</span>
         </th></tr>
         {% for form in forms %}
             <tr>
@@ -112,7 +119,7 @@
                         />
                         <input
                             class="close" type="submit" value="&times;"
-                            aria-label="Supprimer"
+                            aria-label="{% trans "Delete" %}"
                         />
                     </form>
                 </td>
@@ -121,9 +128,6 @@
     </table>
 {% endif %}
 
-
-<!-- TODO: bootstrap table -->
-<!-- TODO: sort by date, recent firs (need, date)-->
 <ul>
 
 

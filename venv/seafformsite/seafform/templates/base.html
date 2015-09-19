@@ -1,3 +1,4 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -49,7 +50,19 @@
 
 <footer class="footer">
     <div class="container">
-        <p class="text-muted">C'était un formulaire SeafForm !</p>
+        <p class="text-muted">
+            <img 
+                class="pull-left" 
+                src="/static/seafform/images/telephone-man-32px.png"
+                alt="Seafform logo"
+            />
+            {% blocktrans %}
+            It was a form build with
+            <a href="https://en.wikipedia.org/wiki/Free_software">free
+            softwares</a>: <a href="https://www.libreoffice.org/">LibreOffice</a>,
+            <a href="http://seafile.com">Seafile</a> and SeafForm!
+            {% endblocktrans %}
+        </p>
     </div>
 </footer>
 

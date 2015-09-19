@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% load bootstrap %}
+{% load bootstrap i18n %}
 
-{% block title %}Formulaires Seafile{% endblock %}
+{% block title %}{% trans "Seafile forms" %}{% endblock %}
 
 {% block body %}
 
@@ -16,13 +16,16 @@
             aria-hidden="true"
         >
         
-        <h1>Formulaires Seafile</h1>
+        <h1>{% trans "Seafile forms" %}</h1>
         
-        <p>Un sondage ? Des inscriptions ?</p>
-        <p>Créer simplement un formulaire à partir d'un tableur
-            <a href="https://fr.libreoffice.org/">LibreOffice</a>, et récupérez
-            directement les résultats dans <a href="http://www.seafile.com/"
-            >Seafile</a> !
+        <p>{% trans "Survey? Poll? Inscriptions?" %}</p>
+        
+        <p>{% blocktrans %}
+            Easily create a form from a 
+            <a href="https://www.libreoffice.org/">LibreOffice</a> spreadsheet
+            and directly get results in <a href="http://www.seafile.com/"
+            >Seafile</a>!
+            {% endblocktrans %}
         </p>
     </div>
     
@@ -31,33 +34,35 @@
     {% if justlogout %}
         <div class="alert alert-info" role="alert">
         <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
-            Salut, et merci encore pour tout le poisson !
+            {% trans "So long, and thanks for all the fish!" %}
         </div>
     {% endif %}
 
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">Se connecter pour créer un formulaire</h3>
+            <h3 class="panel-title">{% trans "Log in to create a form" %}</h3>
         </div>
         <div class="panel-body">
             <p>
-                Vous devez avoir un compte sur le Seafile
-                <a href="{{ seaf_root }}">{{ seaf_root }}</a>, et utiliser
-                les mêmes identifiants pour créer un formulaire.
+                {% blocktrans %}
+                You must have a Seafile account on
+                <a href="{{ seaf_root }}">{{ seaf_root }}</a>, and use the same
+                credentials to create a form.
+                {% endblocktrans %}
             </p>
             
             {% if autherror %}
                 <div class="alert alert-warning" role="alert">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                    <span class="sr-only">Erreur :</span>
-                    identifiants invalides
+                    <span class="sr-only">{% trans "Error:" %}</span>
+                    {% trans "credentials not valid" %}
                 </div>
             {% endif %}
             
             <form action="{% url 'index'  %}" method="post">
                 {% csrf_token %}
                 {{ loginform|bootstrap }}
-                <input class="btn btn-default" type="submit" value="Se connecter" />
+                <input class="btn btn-default" type="submit" value="{% trans "Login" %}" />
             </form>
 
         </div>

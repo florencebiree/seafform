@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {# encoding: utf-8 #}
-{% load bootstrap %}
+{% load bootstrap i18n %}
 
 {% block title %}{{ seafform.title }}{% endblock %}
 
@@ -39,7 +39,9 @@
     </div>
     
     <p aria-hidden="true" class="text-right">
+        {% blocktrans %}
         <span class="required"></span> : <em>champs obligatoires.</em>
+        {% endblocktrans %}
     </p>
     
     <div class="row"><div class="col-md-6 col-md-offset-3">
@@ -64,7 +66,8 @@
                 {{ field|bootstrap }}
             {% endif %}
         {% endfor %}
-        <input class="btn btn-default" type="submit" value="Valider" />
+        <input class="btn btn-default" type="submit" 
+            value="{% trans "Submit" %}" />
     </form>
 
     </div></div>

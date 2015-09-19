@@ -1,4 +1,5 @@
 {% load bootstrap %}
+{% load i18n %}
 
 {% for field in djform %}
     {% if field.is_hidden %}
@@ -17,10 +18,10 @@
 
 <td>
     <div class="btn-group-vertical" role="group">
-        <button class="btn btn-success btn-xs" type="submit" aria-label="Ok">
+        <button class="btn btn-success btn-xs" type="submit" aria-label="{% trans "Submit" %}">
             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
         </button>
-        <button class="btn btn-default btn-xs" type="button" aria-label="Annuler"
+        <button class="btn btn-default btn-xs" type="button" aria-label="{% trans "Cancel" %}"
             onclick="rowcancel({{ rowid }})">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         </button>

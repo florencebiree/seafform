@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}{{ seafform.title }} – Merci !{% endblock %}
+{% block title %}{{ seafform.title }} – {% trans "Thanks!" %}{% endblock %}
 
 {% block body %}
 
@@ -26,7 +27,7 @@
     <div class="well">
         <p class="lead">
             <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-            Merci d'avoir pris le temps de répondre à ce questionnaire !
+            {% trans "Thank you for taking time to answer this form!" %}
         </p>
     </div>
     

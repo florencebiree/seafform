@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}Formulaires Seafile{% endblock %}
+{% block title %}{% trans "Seafile forms" %}{% endblock %}
 
 {% block headers%}
     <link href="/static/jqueryfiletree/jqueryFileTree.css" rel="stylesheet" type="text/css" media="screen" />
@@ -13,7 +14,7 @@
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
+        <span class="sr-only">{% trans "Toggle navigation" %}</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -24,9 +25,9 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="{% url 'new' %}">Nouveau formulaire</a></li>
-        <li><a href="{{ user.seafileuser.seafroot }}" target="_blank">Ouvrir Seafile</a></li>
-        <li><a href="{% url 'logout' %}">Se déconnecter</a></li>
+        <li class="active"><a href="{% url 'new' %}">{% trans "New form" %}</a></li>
+        <li><a href="{{ user.seafileuser.seafroot }}" target="_blank">{% trans "Open Seafile" %}</a></li>
+        <li><a href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
       </ul>
     </div>
   </div>
@@ -36,19 +37,21 @@
 
 
 <div class="page-header">
-    <h1>Créer un formulaire</h1>
+    <h1>{% trans "Create a new form" %}</h1>
 </div>
 
 
 <p>
-    Sélectionnez dans votre Seafile le tableur LibreOffice (.ods) qui sera
-    à la base du formulaire :
+    {% blocktrans %}
+    Choose in your Seafile the LibreOffice spreadsheet (.ods) which will be
+    the form:
+    {% endblocktrans %}
 </p>
     
 <div class="well">
     <div id="seaf-browser">
         <ul class="jqueryFileTree start">
-            <li class="wait">Connexion à Seafile…<li>
+            <li class="wait">{% trans "Conexion to Seafile..." %}<li>
         </ul>
     </div>
 </div>
@@ -56,14 +59,14 @@
 <nav class="navbar navbar-default"><div class="container-fluid">
     <ul class="nav navbar-nav hidden-xs hidden-sm">
         <li>
-            <a href="{% url "private" %}">Annuler</a>
+            <a href="{% url "private" %}">{% trans "Cancel" %}</a>
         </li>
     </ul>
     
     <form class="navbar-form navbar-right" action="{% url 'new'  %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="path" id="path" value=""></input>
-        <input class="btn btn-success" type="submit" value="Valider"
+        <input class="btn btn-success" type="submit" value="{% trans "Submit" %}"
             disabled="disabled" />
     </form>
 </div></nav>
@@ -80,7 +83,6 @@
             $('#seaf-browser').fileTree({
                 root: '/',
                 script: '/private/lsdir/',
-                //loadMessage: 'Chargement…',
             }, function(file, filenode) {
                 $('.selected-file').removeClass('bg-info selected-file')
                 $(filenode).addClass('bg-info selected-file'),

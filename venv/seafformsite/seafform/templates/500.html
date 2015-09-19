@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}Formulaires Seafile - Erreur du serveur {% endblock %}
+{% block title %}{% trans "Seafile forms" %} – {% trans "Server fault" %}{% endblock %}
 
 {% block body %}
 
@@ -16,15 +17,17 @@
             aria-hidden="true"
         >
         
-        <h1>Formulaires Seafile</h1>
+        <h1>{% trans "Seafile forms" %}</h1>
         
         <p>
-            Le serveur a rencontré une erreur. Peut-être est-ce à cause d'un
-            formulaire mal confectionné ?
+            {% blocktrans %}
+            An error append server-side. May be a form is not well-built?
+            {% endblocktrans %}
         </p>
         <p>
-            Vous pouvez contacter l'auteur du formulaire pour lui dire que
-            vous avez eu un problème.
+            {% blocktrans %}
+            You can contact the form owner to tell her you had a problem.
+            {% endblocktrans %}
         </p>
     </div>
     

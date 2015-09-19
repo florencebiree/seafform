@@ -18,7 +18,6 @@ TODO:
 main:
     - i18n
     - theme
-    - footer
     - agpl
     - install instructions
     - readme

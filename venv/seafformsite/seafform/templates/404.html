@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}Formulaires Seafile – formulaire introuvable{% endblock %}
+{% block title %}{% trans "Seafile forms" %} – {% trans "Form not found" %}{% endblock %}
 
 {% block body %}
 
@@ -16,11 +17,13 @@
             aria-hidden="true"
         >
         
-        <h1>Formulaires Seafile</h1>
+        <h1>{% trans "Seafile forms" %}</h1>
         
         <p>
-            Le formulaire que vous essayez d'ouvrir n'est plus accessible.
-            Peut-être que son ou sa propriétaire l'a mis hors-ligne ?
+            {% blocktrans %}
+            The form you try to open is no more reachable.
+            May be its owner put it off-line?
+            {% endblocktrans %}
         </p>
         
     </div>
