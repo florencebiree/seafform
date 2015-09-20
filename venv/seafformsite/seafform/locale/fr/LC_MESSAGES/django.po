@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-18 16:48+0200\n"
+"POT-Creation-Date: 2015-09-20 18:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Florian Birée <florian@biree.name>\n"
 "Language-Team: French\n"
@@ -17,6 +17,64 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. Translators: field type for spreadsheet
+#: seafform.py:77
+msgid "text"
+msgstr "texte"
+
+#. Translators: field type for spreadsheet
+#: seafform.py:82
+msgid "longtext"
+msgstr "texteLong"
+
+#. Translators: field type for spreadsheet
+#: seafform.py:87
+msgid "list"
+msgstr "liste"
+
+#. Translators: field type for spreadsheet
+#: seafform.py:98
+msgid "check"
+msgstr "caseÀCocher"
+
+#. Translators: field type for spreadsheet
+#: seafform.py:107
+msgid "checked"
+msgstr "caseCochée"
+
+#. Translators: field type for spreadsheet
+#: seafform.py:116
+msgid "date"
+msgstr "date"
+
+#. Translators: field type for spreadsheet
+#: seafform.py:121
+msgid "number"
+msgstr "nombre"
+
+#. Translators: field type for spreadsheet
+#: seafform.py:126
+msgid "static"
+msgstr "statique"
+
+#. Translators: ODS view mode
+#: seafform.py:173
+msgid "table"
+msgstr "tableau"
+
+#: seafform.py:173
+msgid "form"
+msgstr "formulaire"
+
+#. Translators: ODS edit, yes or no
+#: seafform.py:177
+msgid "yes"
+msgstr "oui"
+
+#: seafform.py:177
+msgid "no"
+msgstr "non"
 
 #: templates/404.html:4 templates/404.html.py:20 templates/500.html:4
 #: templates/500.html.py:20 templates/seafform/index.html:4
@@ -145,9 +203,9 @@ msgid ""
 "                "
 msgstr ""
 "\n"
-"Vous devez avoir un compte sur le Seafile <a href="
-"\"%(seaf_root)s\">%(seaf_root)s</a>, et utiliser les mêmes identifiants "
-"pour créer un formulaire."
+"Vous devez avoir un compte sur le Seafile <a href=\"%(seaf_root)s\">"
+"%(seaf_root)s</a>, et utiliser les mêmes identifiants pour créer un "
+"formulaire."
 
 #: templates/seafform/index.html:57
 msgid "Error:"
@@ -251,8 +309,8 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"Le formulaire <q>%(title)s</q> a été créé avec succès ! Communiquez l'adresse "
-"suivante à vos correspondants :"
+"Le formulaire <q>%(title)s</q> a été créé avec succès ! Communiquez "
+"l'adresse suivante à vos correspondants :"
 
 #: templates/seafform/private.html:88
 #, python-format

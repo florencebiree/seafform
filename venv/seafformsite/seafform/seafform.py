@@ -35,6 +35,8 @@ import shutil
 import time
 import datetime
 from tempfile import NamedTemporaryFile
+from django.utils.translation import ugettext_noop 
+from django.utils.translation import ugettext as _
 
 HEADERS_ROW = 4 # number of headers row in ods files
 #all_less_maxcount strategy doesn't work
@@ -71,15 +73,18 @@ class Field:
 
 class TextField(Field):
     """Single-line text field"""
-    ident = 'text'
+    # Translators: field type for spreadsheet
+    ident = ugettext_noop('text')
 
 class LongTextField(Field):
     """Multiline text field"""
-    ident = 'longtext'
+    # Translators: field type for spreadsheet
+    ident = ugettext_noop('longtext')
 
 class ListField(Field):
     """List of choices field"""
-    ident = 'list'
+    # Translators: field type for spreadsheet
+    ident = ugettext_noop('list')
     
     def __init__(self, *args):
         Field.__init__(self, *args)
@@ -89,7 +94,8 @@ class ListField(Field):
 
 class BooleanField(Field):
     """Checkbox field"""
-    ident = 'check'
+    # Translators: field type for spreadsheet
+    ident = ugettext_noop('check')
 
     def __init__(self, *args):
         Field.__init__(self, *args)
@@ -97,7 +103,8 @@ class BooleanField(Field):
 
 class BooleanTrueField(Field):
     """Checked checkbox field"""
-    ident = 'checked'
+    # Translators: field type for spreadsheet
+    ident = ugettext_noop('checked')
     
     def __init__(self, *args):
         Field.__init__(self, *args)
@@ -105,27 +112,46 @@ class BooleanTrueField(Field):
 
 class DateField(Field):
     """Date field"""
-    ident = 'date'
+    # Translators: field type for spreadsheet
+    ident = ugettext_noop('date')
 
 class NumberField(Field):
     """Number field"""
-    ident = 'number'
+    # Translators: field type for spreadsheet
+    ident = ugettext_noop('number')
 
 class StaticField(Field):
     """Non-editable field"""
-    ident = 'static'
+    # Translators: field type for spreadsheet
+    ident = ugettext_noop('static')
 
 def field_of(ident):
     """Return the Field subclass corresponding to `ident`"""
     return [
-        cls for cls in Field.__subclasses__() if cls.ident == ident
+        cls 
+        for cls in Field.__subclasses__() 
+        if (cls.ident == ident) or (_(cls.ident) == ident)
     ][0]
 
+def untranslate(loc_val, raw_list, loc_list):
+    """If loc_val in raw_list,
+        return loc_val
+    else:
+        Return the raw value at the same position in raw_list than
+        loc_val in loc_list
+    """
+    if loc_val in raw_list:
+        return loc_val
+    else:
+        return raw_list[loc_list.index(loc_val)]
 
 class SeafForm:
     """Build and fill a form from an OpenDocumentSpreadsheet file"""
-
-    _availables_f_ident = [cls.ident for cls in Field.__subclasses__()]
+    _availables_f_ident = (
+        [cls.ident for cls in Field.__subclasses__()]
+        +
+        [_(cls.ident) for cls in Field.__subclasses__()]
+    )
 
     def __init__(self, filepath, seaf=None, repo_id=None):
         """Initialize a form for the file `filepath`.
@@ -146,9 +172,15 @@ class SeafForm:
         self.description = None
         self.fields = None
         self.data = None
+        # Translators: ODS view mode
+        self._view_as_values = (ugettext_noop('table'), ugettext_noop('form'))
+        self._view_as_l10n = [_(v) for v in self._view_as_values]
         self.view_as = None # ('table' or 'form')
+        # Translators: ODS edit, yes or no
+        self._edit_values = (ugettext_noop('yes'), ugettext_noop('no'))
+        self._edit_val10n = [_(v) for v in self._edit_values]
         self.edit = None
-
+        
         # cached items
         self.mtime = None
         self._odsfile = None
@@ -187,8 +219,16 @@ class SeafForm:
         # get Properties
         self.title = datash['A7'].value
         self.description = datash['A9'].value
-        self.view_as = datash['A11'].value
-        self.edit = (datash['A13'].value == 'True')
+        self.view_as = untranslate(
+            datash['A11'].value,
+            self._view_as_values,
+            self._view_as_l10n
+        )
+        self.edit = ('True' == (untranslate(
+            datash['A13'].value,
+            self._edit_values,
+            self._edit_val10n
+        )))
         
         # get fields
         self.fields = []

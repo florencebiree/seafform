@@ -2,22 +2,14 @@ web design
 
 see bootstrap
 see https://css-tricks.com/responsive-data-tables/ for big tables
-
-
-file manager:
-http://www.abeautifulsite.net/jquery-file-tree/
-
 date / edit table:
 http://jqueryhouse.com/50-jquery-bootstrap-plugins-for-your-next-projects/
-
-meta forms
-https://jacobian.org/writing/dynamic-form-generation/
 
 TODO:
 
 main:
-    - i18n
-    - theme
+    - theme (+ modèle tableur)
+    - multiplier les moèdels tableur
     - agpl
     - install instructions
     - readme
