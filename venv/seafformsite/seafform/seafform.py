@@ -224,7 +224,7 @@ class SeafForm:
             self._view_as_values,
             self._view_as_l10n
         )
-        self.edit = ('True' == (untranslate(
+        self.edit = ('yes' == (untranslate(
             datash['A13'].value,
             self._edit_values,
             self._edit_val10n
