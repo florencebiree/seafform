@@ -251,7 +251,7 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"Le formulaire <q>%(title)s</q> a été créé avec succès !Communiquez l'adresse "
+"Le formulaire <q>%(title)s</q> a été créé avec succès ! Communiquez l'adresse "
 "suivante à vos correspondants :"
 
 #: templates/seafform/private.html:88
