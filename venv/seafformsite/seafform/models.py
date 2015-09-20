@@ -50,7 +50,7 @@ class Form(models.Model):
     filepath = models.CharField(max_length=256)
     repoid = models.CharField(max_length=40)
     reponame = models.CharField(max_length=256)
-    formid = models.CharField(max_length=40, primary_key=True)
+    formid = models.SlugField(max_length=40, primary_key=True)
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
     creation_datetime = models.DateTimeField(auto_now_add=True)

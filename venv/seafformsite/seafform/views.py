@@ -31,6 +31,8 @@ __date__ = "$Date: $"
 
 import os
 from urllib.parse import quote
+import itertools
+from django.utils.text import slugify
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, Http404
@@ -160,8 +162,6 @@ def new(request):
         path = request.POST.get('path', '')
         if path.endswith('.ods'):
             if settings.LOCAL:
-                formid = path[:40].replace(' ', '+')
-                formid += 'z' * (40 - len(formid))
                 filepath = os.path.join(settings.LOCAL_ROOT, path.lstrip('/'))
                 seaf = None
                 repoid = 'LOCAL'
@@ -175,27 +175,32 @@ def new(request):
                 parsed_path = parse(path)
                 filepath = parsed_path['path']
                 repoid = repo_id_from_name(seaf, parsed_path['repo_name'])
-                formid = seaf.stat_file(repoid, filepath)['id']
                 reponame = parsed_path['repo_name']
-            # check existence
-            try:
-                newform = Form.objects.get(owner=request.user, formid=formid)
-            except Form.DoesNotExist:
-                # load the form
-                seafform = SeafForm(filepath, seaf, repoid)
-                seafform.load()
-                # add the new form
-                newform = Form(
-                    owner = request.user,
-                    filepath = filepath,
-                    repoid = repoid,
-                    reponame = reponame,
-                    formid = formid,
-                    title = seafform.title,
-                    creation_datetime = timezone.now(),
-                    description = seafform.description,
-                )
-                newform.save()
+            # load the form
+            seafform = SeafForm(filepath, seaf, repoid)
+            seafform.load()
+            # create the slug/formid
+            max_length = Form._meta.get_field('formid').max_length
+            formid = orig = slugify(seafform.title)[:max_length]
+            
+            for x in itertools.count(1):
+                if not Form.objects.filter(formid=formid).exists():
+                    break
+            # Truncate the original slug dynamically. Minus 1 for the hyphen.
+            formid = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
+            
+            # add the new form
+            newform = Form(
+                owner = request.user,
+                filepath = filepath,
+                repoid = repoid,
+                reponame = reponame,
+                formid = formid,
+                title = seafform.title,
+                creation_datetime = timezone.now(),
+                description = seafform.description,
+            )
+            newform.save()
             # Redirect + message
             return HttpResponseRedirect(reverse('private') + '?newform=' + formid)
     
