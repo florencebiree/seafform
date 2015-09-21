@@ -43,7 +43,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from seafform.models import SeafileUser, Form
 from seafform.forms import LoginForm, DjForm
-from seafform.seafile import Seafile, AuthError
+from seafform.seafile import Seafile, AuthError, APIError
 from seafform.seafform import SeafForm, HEADERS_ROW
 from django.conf import settings
 
@@ -308,7 +308,10 @@ def formview(request, formid):
         seaf = Seafile(seafu.seafroot)
         seaf.authenticate(form.owner.email, token=seafu.seaftoken, validate=False)
     seafform = SeafForm(form.filepath, seaf, form.repoid)
-    seafform.load()
+    try:
+        seafform.load()
+    except APIError:
+        raise Http404
     
     # build the corresponding DjForm()
     if request.method == 'POST':
