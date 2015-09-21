@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-20 18:20+0200\n"
+"POT-Creation-Date: 2015-09-21 12:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Florian Birée <florian@biree.name>\n"
 "Language-Team: French\n"
@@ -19,60 +19,60 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. Translators: field type for spreadsheet
-#: seafform.py:77
+#: seafform.py:75
 msgid "text"
 msgstr "texte"
 
 #. Translators: field type for spreadsheet
-#: seafform.py:82
+#: seafform.py:80
 msgid "longtext"
 msgstr "texteLong"
 
 #. Translators: field type for spreadsheet
-#: seafform.py:87
+#: seafform.py:85
 msgid "list"
 msgstr "liste"
 
 #. Translators: field type for spreadsheet
-#: seafform.py:98
+#: seafform.py:96
 msgid "check"
 msgstr "caseÀCocher"
 
 #. Translators: field type for spreadsheet
-#: seafform.py:107
+#: seafform.py:105
 msgid "checked"
 msgstr "caseCochée"
 
 #. Translators: field type for spreadsheet
-#: seafform.py:116
+#: seafform.py:114
 msgid "date"
 msgstr "date"
 
 #. Translators: field type for spreadsheet
-#: seafform.py:121
+#: seafform.py:119
 msgid "number"
 msgstr "nombre"
 
 #. Translators: field type for spreadsheet
-#: seafform.py:126
+#: seafform.py:124
 msgid "static"
 msgstr "statique"
 
 #. Translators: ODS view mode
-#: seafform.py:173
+#: seafform.py:174
 msgid "table"
 msgstr "tableau"
 
-#: seafform.py:173
+#: seafform.py:174
 msgid "form"
 msgstr "formulaire"
 
 #. Translators: ODS edit, yes or no
-#: seafform.py:177
+#: seafform.py:178
 msgid "yes"
 msgstr "oui"
 
-#: seafform.py:177
+#: seafform.py:178
 msgid "no"
 msgstr "non"
 
@@ -129,17 +129,21 @@ msgid ""
 "            <a href=\"https://en.wikipedia.org/wiki/Free_software\">free\n"
 "            softwares</a>: <a href=\"https://www.libreoffice.org/"
 "\">LibreOffice</a>,\n"
-"            <a href=\"http://seafile.com\">Seafile</a> and SeafForm!\n"
+"            <a href=\"http://seafile.com\">Seafile</a> and \n"
+"            <a href=\"https://github.com/florianbiree/seafform\">SeafForm "
+"(give\n"
+"            me the source code)</a>!\n"
 "            "
 msgstr ""
 "\n"
 "C'était un formulaire produit avec les <a href=\"https://fr.wikipedia.org/"
 "wiki/Logiciel_libre\">logiciels libres</a> <a href=\"https://fr.libreoffice."
 "org/\">LibreOffice</a>, <a href=\"http://seafile.com\">Seafile</a> et "
-"SeafForm !"
+"<a href=\"https://github.com/florianbiree/seafform\">SeafForm "
+"(donnez-moi le code source)</a> !"
 
 #: templates/seafform/form_as_form.html:42
-#: templates/seafform/form_as_table.html:131
+#: templates/seafform/form_as_table.html:133
 msgid ""
 "\n"
 "        <span class=\"required\"></span> : <em>champs obligatoires.</em>\n"
@@ -150,7 +154,7 @@ msgstr ""
 
 #: templates/seafform/form_as_form.html:70
 #: templates/seafform/form_as_table.html:66
-#: templates/seafform/form_as_table.html:120 templates/seafform/new.html:69
+#: templates/seafform/form_as_table.html:122 templates/seafform/new.html:69
 #: templates/seafform/rowedit.html:21
 msgid "Submit"
 msgstr "Valider"
@@ -159,9 +163,9 @@ msgstr "Valider"
 msgid "Action"
 msgstr "Action"
 
-#: templates/seafform/form_as_table.html:90
-#: templates/seafform/form_as_table.html:147
-#: templates/seafform/form_as_table.html:165
+#: templates/seafform/form_as_table.html:92
+#: templates/seafform/form_as_table.html:149
+#: templates/seafform/form_as_table.html:167
 msgid "Loading..."
 msgstr "Chargement..."
 
@@ -332,7 +336,7 @@ msgstr "Titre"
 msgid "Address"
 msgstr "Adresse"
 
-#: templates/seafform/private.html:122
+#: templates/seafform/private.html:121
 msgid "Delete"
 msgstr "Supprimer"
 

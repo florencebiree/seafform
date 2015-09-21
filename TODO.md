@@ -5,7 +5,7 @@ main
 ----
 
 - multiply ods templates
-- put all files under AGPL
+- put AGPL info into the footer
 - add installations instructions
 - add a readme
 - what if the user change its seafile password -> seafform will keep using the old one
