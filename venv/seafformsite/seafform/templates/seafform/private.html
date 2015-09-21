@@ -117,10 +117,10 @@
                             type="hidden" name="deleteid"
                             value="{{ form.formid }}"
                         />
-                        <input
-                            class="close" type="submit" value="&times;"
-                            aria-label="{% trans "Delete" %}"
-                        />
+                        <button class="btn btn-default btn-xs" type="submit" 
+                                aria-label="{% trans "Delete" %}">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
                     </form>
                 </td>
             </tr>

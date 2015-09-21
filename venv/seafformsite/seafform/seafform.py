@@ -38,8 +38,8 @@ from tempfile import NamedTemporaryFile
 from django.utils.translation import ugettext_noop 
 from django.utils.translation import ugettext as _
 
-HEADERS_ROW = 4 # number of headers row in ods files
-#all_less_maxcount strategy doesn't work
+HEADERS_ROW = 4  # number of headers row in ods files
+#all_less_maxcount strategy delete formats
 # trying all_but_last, then all
 #ezodf.config.set_table_expand_strategy('all_but_last')
 
