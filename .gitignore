@@ -1,2 +1,6 @@
 **/__pycache__/
 *~
+*lock*
+*.sqlite3
+**/proto/
+settings.py
