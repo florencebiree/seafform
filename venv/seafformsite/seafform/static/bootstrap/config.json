@@ -394,6 +394,7 @@
     "input-groups.less",
     "navs.less",
     "navbar.less",
+    "badges.less",
     "jumbotron.less",
     "alerts.less",
     "panels.less",
@@ -407,5 +408,5 @@
     "scrollspy.js",
     "transition.js"
   ],
-  "customizerUrl": "http://getbootstrap.com/customize/?id=d7a61c582100212c5dd1"
+  "customizerUrl": "http://getbootstrap.com/customize/?id=4883ecbae98d09844da6"
 }

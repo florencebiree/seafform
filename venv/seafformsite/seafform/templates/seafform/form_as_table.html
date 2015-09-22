@@ -103,6 +103,30 @@
             {% endif %}
         {% endfor %}
         
+        {% if seafform.data %} {# do not display computations if no results #}
+        <tr id="computation-row" class="active">
+            {% for comp in computations %}
+                <td>
+                    {% if comp != None %}
+                    <span class="badge">
+                        {{ comp|floatformat:"-2" }}
+                        {% if forloop.counter0 in max_chk_column %}
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            <span class="sr-only">{% trans "(maximum)" %}</span>
+                        {% endif %}
+                    </span>
+                    {% endif %}
+                    {% if forloop.counter0 == 0 %}
+                        <br />
+                        <span class="badge">{% blocktrans with seafform.data|length as nb %}
+                        {{ nb }} answer
+                        {% endblocktrans %}</span>
+                    {% endif %}
+                </td>
+            {% endfor %}
+            <td></td>
+        </tr>
+        {% endif %}
         
         <tr id="newrow-edit">
             {% for field in djform %}

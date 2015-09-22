@@ -19,4 +19,3 @@ view as table
 
 - if long table, may be fixed headers?
 - when a line is saved (green sucess background), viewing bug on the right
-

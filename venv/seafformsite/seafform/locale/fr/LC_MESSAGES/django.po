@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-21 12:50+0200\n"
+"POT-Creation-Date: 2015-09-22 12:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Florian Birée <florian@biree.name>\n"
 "Language-Team: French\n"
@@ -138,12 +138,12 @@ msgstr ""
 "\n"
 "C'était un formulaire produit avec les <a href=\"https://fr.wikipedia.org/"
 "wiki/Logiciel_libre\">logiciels libres</a> <a href=\"https://fr.libreoffice."
-"org/\">LibreOffice</a>, <a href=\"http://seafile.com\">Seafile</a> et "
-"<a href=\"https://github.com/florianbiree/seafform\">SeafForm "
-"(donnez-moi le code source)</a> !"
+"org/\">LibreOffice</a>, <a href=\"http://seafile.com\">Seafile</a> et <a "
+"href=\"https://github.com/florianbiree/seafform\">SeafForm (donnez-moi le "
+"code source)</a> !"
 
 #: templates/seafform/form_as_form.html:42
-#: templates/seafform/form_as_table.html:133
+#: templates/seafform/form_as_table.html:156
 msgid ""
 "\n"
 "        <span class=\"required\"></span> : <em>champs obligatoires.</em>\n"
@@ -152,22 +152,37 @@ msgstr ""
 "\n"
 "<span class=\"required\"></span> : <em>champs obligatoires.</em>"
 
-#: templates/seafform/form_as_form.html:70
-#: templates/seafform/form_as_table.html:66
-#: templates/seafform/form_as_table.html:122 templates/seafform/new.html:69
+#: templates/seafform/form_as_form.html:77
+#: templates/seafform/form_as_table.html:69
+#: templates/seafform/form_as_table.html:145 templates/seafform/new.html:69
 #: templates/seafform/rowedit.html:21
 msgid "Submit"
 msgstr "Valider"
 
-#: templates/seafform/form_as_table.html:51 templates/seafform/private.html:100
+#: templates/seafform/form_as_table.html:52 templates/seafform/private.html:100
 msgid "Action"
 msgstr "Action"
 
-#: templates/seafform/form_as_table.html:92
-#: templates/seafform/form_as_table.html:149
-#: templates/seafform/form_as_table.html:167
+#: templates/seafform/form_as_table.html:93
+#: templates/seafform/form_as_table.html:172
+#: templates/seafform/form_as_table.html:190
 msgid "Loading..."
 msgstr "Chargement..."
+
+#: templates/seafform/form_as_table.html:114
+msgid "(maximum)"
+msgstr "(maximum)"
+
+#: templates/seafform/form_as_table.html:120
+#, python-format
+msgid ""
+"\n"
+"                        %(nb)s answer\n"
+"                        "
+msgstr ""
+"\n"
+"%(nb)s réponses\n"
+" "
 
 #: templates/seafform/index.html:21
 msgid "Survey? Poll? Inscriptions?"

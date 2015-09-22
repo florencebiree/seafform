@@ -354,6 +354,28 @@ def formview(request, formid):
     elif seafform.view_as == 'table' or (results and seafform.edit):
         # hightlight first column if static field
         first_is_static = (seafform.fields[0].ident == 'static')
+        # compute some results
+        max_chk = 0
+        computations = []
+        for colid, field in enumerate(seafform.fields):
+            # if check boxe, number of checks
+            if field.ident.startswith('check'):
+                res = sum(row[colid] for row in seafform.data if row[colid])
+                max_chk = max(max_chk, res)
+                computations.append(res)
+            # if number, the sum
+            elif field.ident == 'number':
+                computations.append(sum(
+                    row[colid] for row in seafform.data if row[colid]
+                ))
+            else:
+                computations.append(None)
+        # columns with a star
+        max_chk_column = []
+        for colid, field in enumerate(seafform.fields):
+            if field.ident.startswith('check') and computations[colid] == max_chk:
+                max_chk_column.append(colid)
+        
         # table view    
         return render(request, 'seafform/form_as_table.html', {
             'seafform': seafform,
@@ -361,6 +383,8 @@ def formview(request, formid):
             'djform': djform,
             'justaddedrow': justaddedrow,
             'first_is_static': first_is_static,
+            'computations': computations,
+            'max_chk_column': max_chk_column,
         })
 
     raise Http404
