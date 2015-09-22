@@ -41,6 +41,7 @@
     <form action="{{ modelform.get_absolute_url }}" method="post">
     {% csrf_token %}
     <table class="table table-hover table-condensed">
+        {% if seafform.data %} {# do not display head if no results #}
         <thead>
         <tr>
         {% for field in seafform.fields %}
@@ -52,6 +53,7 @@
             </th> 
         </tr>
         </thead>
+        {% endif %}
         
         <tbody>
         {% for row in seafform.data %}
@@ -60,20 +62,19 @@
                 id="row-{{ forloop.counter0 }}"
             >
                 {% for value in row %}
-                    {% if value == True %}
-                        <td>
-                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                            <span class="sr-only">{% trans "Submit" %}</span>
-                        </td>
+                    {% if first_is_static and forloop.counter0 == 0 %}<th>{% else %}<td>{% endif %}
+                
+                    {% if value|get_type == "bool" and value == True %}
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        <span class="sr-only">{% trans "Submit" %}</span>
                     {% elif value|get_type == "float" %}
-                        <td>{{ value|floatformat:"-2" }}</td>
+                        {{ value|floatformat:"-2" }}
                     {% elif value|get_type == "date" %}
-                        <td>{{ value|date:"l j N Y" }}</td>
+                        {{ value|date:"l j N Y" }}
                     {% else %}
-                        <td>
-                            {{ value|default:""|linebreaks }}
-                        </td>
+                        {{ value|default:""|linebreaks }}
                     {% endif %}
+                    {% if first_is_static and forloop.counter0 == 0 %}</th>{% else %}</td>{% endif %}
                 {% endfor %}
                 <td>
                     {% if seafform.edit %}

@@ -263,6 +263,8 @@ class SeafForm:
                         pass # keep val as str
                     else:
                         val = datetime.date(*s_time[:3])
+                elif self.fields[celid-1].ident.startswith('check') and val:
+                    val = bool(val)
                 row_data.append(val)
             self.data.append(row_data)
         

@@ -352,12 +352,15 @@ def formview(request, formid):
         })
         
     elif seafform.view_as == 'table' or (results and seafform.edit):
+        # hightlight first column if static field
+        first_is_static = (seafform.fields[0].ident == 'static')
         # table view    
         return render(request, 'seafform/form_as_table.html', {
             'seafform': seafform,
             'modelform': form,
             'djform': djform,
             'justaddedrow': justaddedrow,
+            'first_is_static': first_is_static,
         })
 
     raise Http404
