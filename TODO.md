@@ -4,7 +4,6 @@ SeafForm TODO
 main
 ----
 
-- multiply ods templates
 - add installations instructions
 - add a readme -> link to demonstration forms, screenshots
 - what if the user change its seafile password -> seafform will keep using the old one
