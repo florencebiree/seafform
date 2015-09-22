@@ -88,7 +88,10 @@ class DjForm(forms.Form):
             elif isinstance(field, seafform.NumberField):
                 djfield = forms.FloatField(**stdparams)
             elif isinstance(field, seafform.StaticField):
-                djfield = forms.CharField(widget=forms.HiddenInput)
+                params = stdparams.copy()
+                params.update(widget=forms.HiddenInput)
+                params['required'] = False
+                djfield = forms.CharField(**params)
                 djfield.isstatic = True
             
             if djfield is not None:

@@ -58,10 +58,17 @@
         {% endif %}
         {% for field in djform %}
             {% if field.is_hidden %}
+                <div class="form-group">
                 {{ field }}
                 {% if field.field.isstatic %}
-                    <p class="form-control-static">{{ field.value }}</p>
+                    <h2>{{ field.label }}</h2>
+                    {% if field.help_text %}
+                        <p class="help-block">
+                        {{ field.help_text|safe }}
+                        </p>
+                    {% endif %}
                 {% endif %}
+                </div>
             {% else %}
                 {{ field|bootstrap }}
             {% endif %}
