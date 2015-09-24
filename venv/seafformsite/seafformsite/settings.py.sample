@@ -17,14 +17,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'hev=5s0x7ba+&q9p=m0e9!74fuktpo$_py80rq8benj_t0a-i@'
+SECRET_KEY = 'put here a 50 chars long random key'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['forms.example.org'] # Must be changed!
 
 
 # Application definition
@@ -60,7 +60,7 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_DIRS = (
-    '/path/to/seafform/templates/',
+    'SEAFFORM_INSTALL_PATH/venv/seafformsite/seafform/templates/',
 )
 
 
@@ -90,8 +90,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-
 STATIC_URL = '/static/'
+
+# HTTPS settings
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 # Seafform settings
 SEAFILE_ROOT = 'https://seafile.example.org/'

@@ -1,0 +1,40 @@
+# redirect http to https.
+server {
+        listen   80; ## listen for ipv4
+        listen   [::]:80; ## listen for ipv6
+        server_name forms.example.org;
+        return 301 https://$server_name$request_uri; #enforce https
+}       
+
+# SeafForm
+server {        
+        listen 443;
+        server_name forms.tila.im;
+    
+        ssl on;
+        ssl_certificate     /path/to/your/cert;
+        ssl_certificate_key /path/to/your/cert.key;
+        # HSTS (ngx_http_headers_module is required) (15768000 seconds = 6 months)
+        add_header Strict-Transport-Security max-age=15768000;
+
+        server_name forms.example.org;
+
+        location / {
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header Host $http_host;
+                proxy_redirect off;
+                if (!-f $request_filename) {
+                        proxy_pass http://seafform_backend;
+                        break;        
+                }
+        }
+
+        location /static {
+                root "/var/webapps/seafform/venv/seafformsite/seafform/";
+        }
+
+}
+
+upstream seafform_backend {
+        server unix:/var/webapps/seafform/venv/seafform.sock;
+}
