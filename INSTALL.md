@@ -2,13 +2,13 @@
 
 ## Requierments
 
-    - Python 3
-    - Python virtual environments
-    - Django 1.7
-    - Python3-lxml
-    - Python3-requests
-    - Python3-ezodf (not in Debian packages)
-    - Python3-bootstrapform
+- Python 3
+- Python virtual environments
+- Django 1.7
+- Python3-lxml
+- Python3-requests
+- Python3-ezodf (not in Debian packages)
+- Python3-bootstrapform
 
 You really should install SeafForm under HTTPS, since personnal informations
 will be transfered in the network
@@ -18,30 +18,30 @@ will be transfered in the network
 SeafForm use the same credentials than the Seafile server. To avoid leaking
 username and passwords of Seafile users, you should only install SeafForm either:
 
-    - on a server administrated by the same people than the Seafile one (you
-      trust the same people)
-    - on your personnal server for you own use (if you can trust yourself)
+- on a server administrated by the same people than the Seafile one (you
+  trust the same people)
+- on your personnal server for you own use (if you can trust yourself)
 
 ## How to install it?
 
 ### Get the code
 *put it in a directory not in your server document root, lets says:*
 
-$ cd /var/webapps/
-$ git clone https://github.com/florianbiree/seafform.git
+    $ cd /var/webapps/
+    $ git clone https://github.com/florianbiree/seafform.git
 
 ### Dependencies
 *here are the Debian/Jessie packages, if needed libs are not packaged in
 you distribution, install them using pip at the next step*
 
-# apt-get install python3 python3-virtualenv python3-django python3-bootstrapform python3-lxml python3-requests
+    # apt-get install python3 python3-virtualenv python3-django python3-bootstrapform python3-lxml python3-requests
 
 ### Initialize the virtual environment and dependencies
 
-$ virtualenv --python=python3 --system-site-packages venv/
-$ cd venv/ # go to the virtual env to install python packages
-$ . bin/activate
-$ pip install ezodf gunicorn
+    $ virtualenv --python=python3 --system-site-packages venv/
+    $ cd venv/ # go to the virtual env to install python packages
+    $ . bin/activate
+    $ pip install ezodf gunicorn
 
 ## Create a Seafile library for forms templates
 
@@ -57,8 +57,9 @@ There is a setting to put your template share link.
 https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 You must initialize you database using:
-$ cd seafformsite
-$ ./manage.py migrate
+    
+    $ cd seafformsite
+    $ ./manage.py migrate
 
 ### Starting the app
 *You can use Gunicorn to run SeafForms, and start it with a process manager like supervisord*
