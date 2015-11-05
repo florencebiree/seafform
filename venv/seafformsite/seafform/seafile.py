@@ -126,12 +126,16 @@ class Seafile:
     
     # internals
     
-    def __init__(self, url):
-        """New seafile connector to `url` instance"""
+    def __init__(self, url, verifycerts=True):
+        """New seafile connector to `url` instance
+        
+            set verifycerts to False to disable TLS certificate verification
+        """
         self.url = url
         self._api_url = urljoin(self.url, self.base_api)
         self.token = None
         self.email = None
+        self.verify = verifycerts
     
     def _need_auth(func):
         """Decorator to ensure the connector is authentified before 
@@ -184,7 +188,8 @@ class Seafile:
             params=params,
             headers=final_headers,
             data=data,
-            files=files
+            files=files,
+            verify=self.verify
         )
         try:
             r.raise_for_status()
@@ -422,7 +427,8 @@ class Seafile:
                 'filename': (None, filename),
                 'parent_dir': (None, parent),
                 'file': (filename, fileo, 'application/octet-stream'),
-            }
+            },
+            verify=self.verify
         )
         prepped = self._multipart_filname_patching(req.prepare(), filename)
         
@@ -463,7 +469,8 @@ class Seafile:
                 #'filename': (None, filename),
                 'target_file': (None, filepath),
                 'file': (filename, fileo, 'application/octet-stream'),
-            }
+            },
+            verify=self.verify,
         )
         prepped = self._multipart_filname_patching(req.prepare(), filename)
         

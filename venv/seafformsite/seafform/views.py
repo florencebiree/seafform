@@ -78,7 +78,7 @@ def index(request):
                 autherror = True
             else:
                 # try to connect to seafile using credentials
-                seaf = Seafile(seaf_root)
+                seaf = Seafile(seaf_root, verifycerts=settings.VERIFYCERTS)
                 try:
                     seaf.authenticate(email, password)
                 except AuthError:
@@ -167,7 +167,7 @@ def new(request):
             else:
                 # Connect to Seafile
                 seafu = request.user.seafileuser
-                seaf = Seafile(seafu.seafroot)
+                seaf = Seafile(seafu.seafroot, verifycerts=settings.VERIFYCERTS)
                 seaf.authenticate(request.user.email, token=seafu.seaftoken, validate=False)
                 # retreive path info
                 parsed_path = parse(path)
@@ -258,7 +258,7 @@ def lsdir(request):
         else:
             # Connect to Seafile
             seafu = request.user.seafileuser
-            seaf = Seafile(seafu.seafroot)
+            seaf = Seafile(seafu.seafroot, verifycerts=settings.VERIFYCERTS)
             seaf.authenticate(request.user.email, token=seafu.seaftoken, validate=False)
             # list the directory
             parsed_path = parse(path)
@@ -303,7 +303,7 @@ def formview(request, formid):
         seaf = None
     else:
         seafu = form.owner.seafileuser
-        seaf = Seafile(seafu.seafroot)
+        seaf = Seafile(seafu.seafroot, verifycerts=settings.VERIFYCERTS)
         seaf.authenticate(form.owner.email, token=seafu.seaftoken, validate=False)
     seafform = SeafForm(form.filepath, seaf, form.repoid)
     try:
@@ -402,7 +402,7 @@ def formrowedit(request, formid, rowid):
         seaf = None
     else:
         seafu = form.owner.seafileuser
-        seaf = Seafile(seafu.seafroot)
+        seaf = Seafile(seafu.seafroot, verifycerts=settings.VERIFYCERTS)
         seaf.authenticate(form.owner.email, token=seafu.seaftoken, validate=False)
     seafform = SeafForm(form.filepath, seaf, form.repoid)
     seafform.load()
