@@ -52,6 +52,7 @@ class Form(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
     creation_datetime = models.DateTimeField(auto_now_add=True)
+    public = models.BooleanField(default=False)
 
     def __repr__(self):
         return "<Form(%s, %s)>" % (self.title, self.owner.email)

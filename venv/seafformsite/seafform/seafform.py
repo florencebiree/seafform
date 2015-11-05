@@ -142,11 +142,15 @@ def untranslate(loc_val, raw_list, loc_list):
     else:
         Return the raw value at the same position in raw_list than
         loc_val in loc_list
+    default to the first value
     """
     if loc_val in raw_list:
         return loc_val
     else:
-        return raw_list[loc_list.index(loc_val)]
+        try:
+            return raw_list[loc_list.index(loc_val)]
+        except ValueError:
+            return raw_list[0]
 
 class SeafForm:
     """Build and fill a form from an OpenDocumentSpreadsheet file"""
@@ -183,6 +187,10 @@ class SeafForm:
         self._edit_values = (ugettext_noop('yes'), ugettext_noop('no'))
         self._edit_val10n = [_(v) for v in self._edit_values]
         self.edit = None
+        # Translators: ODS public, yes or no
+        self._public_values = (ugettext_noop('yes'), ugettext_noop('no'))
+        self._public_val10n = [_(v) for v in self._public_values]
+        self.public = None
         
         # cached items
         self.mtime = None
@@ -231,6 +239,11 @@ class SeafForm:
             datash['A13'].value,
             self._edit_values,
             self._edit_val10n
+        )))
+        self.public = ('yes' == (untranslate(
+            datash['A15'].value,
+            self._public_values,
+            self._public_val10n
         )))
         
         # get fields
