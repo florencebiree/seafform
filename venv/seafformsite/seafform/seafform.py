@@ -33,8 +33,13 @@ import shutil
 import time
 import datetime
 from tempfile import NamedTemporaryFile
-from django.utils.translation import ugettext_noop 
-from django.utils.translation import ugettext as _
+if 'DJANGO_SETTINGS_MODULE' in os.environ:
+    from django.utils.translation import ugettext_noop 
+    from django.utils.translation import ugettext as _
+else:
+    # Not in a Django environment
+    _ = lambda x:x
+    ugettext_noop = _
 
 HEADERS_ROW = 4  # number of headers row in ods files
 #all_less_maxcount strategy delete formats
