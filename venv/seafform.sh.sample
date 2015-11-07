@@ -23,9 +23,9 @@
 ###############################################################################
 
 # change those variables to suits your needs
-VENV_DIR=/path/to/seafform/venv/
+VENV_DIR=/path/to/seafform/venv
 ACTIVATE_PATH=$VENV_DIR/bin/activate
-SOCKET="unix:/$VENV_DIR/seafform.sock"
+SOCKET="unix:$VENV_DIR/seafform.sock"
 
 
 cd ${VENV_DIR}
