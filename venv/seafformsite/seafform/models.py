@@ -23,7 +23,7 @@
 """Seafform forms description"""
 
 __author__ = "Florian Birée"
-__version__ = "0.1"
+__version__ = "0.2"
 __license__ = "AGPLv3"
 __copyright__ = "Copyright © 2015, Florian Birée <florian@biree.name>"
 
