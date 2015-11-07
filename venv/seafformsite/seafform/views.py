@@ -45,6 +45,34 @@ from seafform.seafile import Seafile, AuthError, APIError
 from seafform.seafform import SeafForm, HEADERS_ROW
 from django.conf import settings
 
+def _log(request, email, password, nextview):
+    """ Authenticate or create a new account """
+    seaf_root = settings.SEAFILE_ROOT
+    user = authenticate(username=email, password=password)
+    # if known user:
+    if user is not None and user.is_active:
+        login(request, user)
+        # login, -> nexturl
+        return HttpResponseRedirect(reverse(nextview))
+    elif user is not None: # not active
+        raise AuthError
+    else:
+        # try to connect to seafile using credentials
+        seaf = Seafile(seaf_root, verifycerts=settings.VERIFYCERTS)
+        seaf.authenticate(email, password) # may raise AuthError
+        token = seaf.token
+        # create new user, save the token
+        user = User.objects.create_user(email, email, password)
+        user.save()
+        seafuser = SeafileUser(user=user, seafroot=seaf_root,
+                                seaftoken=token)
+        seafuser.save()
+        # login
+        user2 = authenticate(username=email, password=password)
+        login(request, user2)
+        # -> nextview
+        return HttpResponseRedirect(reverse(nextview))
+
 def index(request):
     """Main login view"""
     #TODO: whatif the seafile password change?
@@ -52,10 +80,9 @@ def index(request):
         # enter its new password and resync
     justlogout = False
     autherror = False
-    seaf_root = settings.SEAFILE_ROOT
-    
-    # if authenticated, redirect to /private
-    if request.user.is_authenticated():
+       
+    # if authenticated, redirect to /private and no public forms
+    if not settings.ALLOW_PUBLIC and request.user.is_authenticated():
         return HttpResponseRedirect(reverse('private'))
     
     # if this is a POST request we need to process the form data
@@ -68,34 +95,16 @@ def index(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             
-            user = authenticate(username=email, password=password)
-            # if known user:
-            if user is not None and user.is_active:
-                login(request, user)
-                # login, -> /private/
-                return HttpResponseRedirect(reverse('private'))
-            elif user is not None: # not active
+            nextstep = (
+                'index'
+                if (settings.ALLOW_PUBLIC and settings.PUBLIC_NEED_AUTH) 
+                else 'private'
+            )
+            
+            try:
+                return _log(request, email, password, nextstep)
+            except AuthError:
                 autherror = True
-            else:
-                # try to connect to seafile using credentials
-                seaf = Seafile(seaf_root, verifycerts=settings.VERIFYCERTS)
-                try:
-                    seaf.authenticate(email, password)
-                except AuthError:
-                    autherror = True
-                else:
-                    token = seaf.token
-                    # create new user, save the token
-                    user = User.objects.create_user(email, email, password)
-                    user.save()
-                    seafuser = SeafileUser(user=user, seafroot=seaf_root,
-                                           seaftoken=token)
-                    seafuser.save()
-                    # login
-                    user2 = authenticate(username=email, password=password)
-                    login(request, user2)
-                    # -> /private/
-                    return HttpResponseRedirect(reverse('private'))
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -108,7 +117,18 @@ def index(request):
         'loginform': form,
         'autherror': autherror,
         'justlogout': justlogout,
-        'seaf_root': seaf_root,
+        'seaf_root': settings.SEAFILE_ROOT,
+        'allow_public': settings.ALLOW_PUBLIC,
+        'public_needauth': settings.PUBLIC_NEED_AUTH,
+        'authenticated': request.user.is_authenticated(),
+        'public_forms': Form.objects.filter(public=True).\
+                              order_by('-creation_datetime'),
+        'show_public': (
+            settings.ALLOW_PUBLIC and ( 
+                request.user.is_authenticated()
+                or 
+                not settings.PUBLIC_NEED_AUTH
+            )),
     })
 
 @login_required(login_url='index')
@@ -144,6 +164,7 @@ def private(request):
                               order_by('-creation_datetime'),
         'newform': newform,
         'deleted': deleted,
+        'allow_public': settings.ALLOW_PUBLIC,
     })
 
 def logout_view(request):
@@ -197,6 +218,7 @@ def new(request):
                 title = seafform.title,
                 creation_datetime = timezone.now(),
                 description = seafform.description,
+                public = seafform.public,
             )
             newform.save()
             # Redirect + message
@@ -204,6 +226,7 @@ def new(request):
     
     return render(request, 'seafform/new.html', {
         'user': request.user,
+        'allow_public': settings.ALLOW_PUBLIC,
     })
 
 # utility function
@@ -430,3 +453,4 @@ def thanks(request, formid):
     return render(request, 'seafform/thanks.html', {
         'seafform': form,
     })
+

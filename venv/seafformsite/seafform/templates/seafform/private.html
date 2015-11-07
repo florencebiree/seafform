@@ -21,7 +21,10 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="{% url 'new' %}">{% trans "New form" %}</a></li>
+        {% if allow_public %}
+            <li><a href="{% url 'index' %}">{% trans "Public forms" %}</a></li>
+        {% endif %}
+        <li class="active"><a href="{% url 'private' %}">{% trans "New form" %}</a></li>
         <li><a href="{{ user.seafileuser.seafroot }}" target="_blank">{% trans "Open Seafile" %}</a></li>
         <li><a href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
       </ul>

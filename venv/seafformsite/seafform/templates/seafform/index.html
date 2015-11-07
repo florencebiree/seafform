@@ -5,6 +5,36 @@
 
 {% block body %}
 
+{% if authenticated %}
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">{% trans "Toggle navigation" %}</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'private' %}">{{ user.email }}</a>
+    </div>
+    
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        {% if allow_public %}
+            <li class="active"><a href="{% url 'public' %}">{% trans "Public forms" %}</a></li>
+        {% endif %}
+        <li><a href="{% url 'private' %}">{% trans "New form" %}</a></li>
+        <li><a href="{{ user.seafileuser.seafroot }}" target="_blank">{% trans "Open Seafile" %}</a></li>
+        <li><a href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endif %}
+
+
 <div class="container theme-showcase" role="main">
 
     <div class="jumbotron clearfix">
@@ -27,6 +57,14 @@
             >Seafile</a>!
             {% endblocktrans %}
         </p>
+        
+        {% if authenticated %}
+        <p>
+            <a type="button" class="btn btn-info pull-right"
+            href="{% url 'private' %}">{% trans "Create a new form" %}</a>
+        </p>
+        {% endif %}
+        
     </div>
     
     <div class="row"><div class="col-md-6 col-md-offset-3">
@@ -37,17 +75,56 @@
             {% trans "So long, and thanks for all the fish!" %}
         </div>
     {% endif %}
+    
+    {% if show_public %}
+        {% if public_forms %}
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                <h3 class="panel-title">
+                    {% trans "Public forms" %}
+                </h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-condensed">
+                    {% for form in public_forms %}
+                    <tr>
+                        <th>
+                            <a href="{{ form.get_absolute_url }}">{{ form.title }}</a>
+                        </th>
+                        {% if authenticated %}
+                        <td>
+                            {{ form.owner.email }}
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-info" role="alert">
+                {% trans "No public form available" %}
+            </div>
+        {% endif %}
+    {% endif %}
 
+    {% if not authenticated %}
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">{% trans "Log in to create a form" %}</h3>
+            <h3 class="panel-title">
+                {% if allow_public and public_needauth %}
+                    {% trans "Log in to view forms or create a new one" %}
+                {% else %}
+                    {% trans "Log in to create a form" %}
+                {% endif %}
+            </h3>
         </div>
         <div class="panel-body">
             <p>
                 {% blocktrans %}
                 You must have a Seafile account on
                 <a href="{{ seaf_root }}">{{ seaf_root }}</a>, and use the same
-                credentials to create a form.
+                credentials to log in.
                 {% endblocktrans %}
             </p>
             
@@ -67,6 +144,7 @@
 
         </div>
     </div>
+    {% endif %}
     
     </div></div>
 

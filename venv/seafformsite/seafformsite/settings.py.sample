@@ -101,6 +101,8 @@ SEAFILE_ROOT = 'https://seafile.example.org/'
 TPL_URL = 'https://seafile.example.org/d/908b45b3b6/'
 ROOT_URL = 'https://forms.example.org/'
 VERIFYCERTS = True
+ALLOW_PUBLIC = False
+PUBLIC_NEED_AUTH = True
 
 # Seafform dev setting
 LOCAL = False
