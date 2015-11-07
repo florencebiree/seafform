@@ -224,7 +224,7 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"Créer simplement un formulaire à partir d'un tableur <a href=\"https://fr."
+"Créez simplement un formulaire à partir d'un tableur <a href=\"https://fr."
 "libreoffice.org/\">LibreOffice</a>, et récupérez directement les résultats "
 "dans <a href=\"http://www.seafile.com/\" >Seafile</a> !"
 
