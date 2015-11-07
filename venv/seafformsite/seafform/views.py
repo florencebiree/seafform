@@ -313,6 +313,18 @@ def lsdir(request):
         return render(request, 'seafform/lsdir.html', {'result': result})
     raise Http404("Bad request method")
 
+def _update_form_attr(dbform, seafform):
+    """Update db attributes from ODS file"""
+    needupdate = False
+    if seafform.title != dbform.title:
+        dbform.title = seafform.title
+        needupdate = True
+    if seafform.public != dbform.public:
+        dbform.public = seafform.public
+        needupdate = True
+    if needupdate:
+        dbform.save()
+
 def formview(request, formid):
     """Display a public form"""
     justaddedrow = None
@@ -333,6 +345,8 @@ def formview(request, formid):
         seafform.load()
     except APIError:
         raise Http404
+        
+    _update_form_attr(form, seafform)
     
     # build the corresponding DjForm()
     if request.method == 'POST':

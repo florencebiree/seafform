@@ -23,7 +23,7 @@
     <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
       <ul class="nav navbar-nav">
         {% if allow_public %}
-            <li class="active"><a href="{% url 'public' %}">{% trans "Public forms" %}</a></li>
+            <li class="active"><a href="{% url 'index' %}">{% trans "Public forms" %}</a></li>
         {% endif %}
         <li><a href="{% url 'private' %}">{% trans "New form" %}</a></li>
         <li><a href="{{ user.seafileuser.seafroot }}" target="_blank">{% trans "Open Seafile" %}</a></li>

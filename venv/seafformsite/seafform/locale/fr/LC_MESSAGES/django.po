@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the SeafForm package.
 # Florian Birée <florian@biree.name>, 2015
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-22 12:15+0200\n"
+"POT-Creation-Date: 2015-11-07 10:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Florian Birée <florian@biree.name>\n"
 "Language-Team: French\n"
@@ -19,66 +18,67 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. Translators: field type for spreadsheet
-#: seafform.py:75
+#: seafform.py:80
 msgid "text"
 msgstr "texte"
 
 #. Translators: field type for spreadsheet
-#: seafform.py:80
+#: seafform.py:85
 msgid "longtext"
 msgstr "texteLong"
 
 #. Translators: field type for spreadsheet
-#: seafform.py:85
+#: seafform.py:90
 msgid "list"
 msgstr "liste"
 
 #. Translators: field type for spreadsheet
-#: seafform.py:96
+#: seafform.py:101
 msgid "check"
 msgstr "caseÀCocher"
 
 #. Translators: field type for spreadsheet
-#: seafform.py:105
+#: seafform.py:110
 msgid "checked"
 msgstr "caseCochée"
 
 #. Translators: field type for spreadsheet
-#: seafform.py:114
+#: seafform.py:119
 msgid "date"
 msgstr "date"
 
 #. Translators: field type for spreadsheet
-#: seafform.py:119
+#: seafform.py:124
 msgid "number"
 msgstr "nombre"
 
 #. Translators: field type for spreadsheet
-#: seafform.py:124
+#: seafform.py:129
 msgid "static"
 msgstr "statique"
 
 #. Translators: ODS view mode
-#: seafform.py:174
+#: seafform.py:183
 msgid "table"
 msgstr "tableau"
 
-#: seafform.py:174
+#: seafform.py:183
 msgid "form"
 msgstr "formulaire"
 
 #. Translators: ODS edit, yes or no
-#: seafform.py:178
+#. Translators: ODS public, yes or no
+#: seafform.py:187 seafform.py:191
 msgid "yes"
 msgstr "oui"
 
-#: seafform.py:178
+#: seafform.py:187 seafform.py:191
 msgid "no"
 msgstr "non"
 
 #: templates/404.html:4 templates/404.html.py:20 templates/500.html:4
 #: templates/500.html.py:20 templates/seafform/index.html:4
-#: templates/seafform/index.html.py:19 templates/seafform/new.html:4
+#: templates/seafform/index.html.py:49 templates/seafform/new.html:4
 #: templates/seafform/private.html:4
 msgid "Seafile forms"
 msgstr "Formulaires Seafile"
@@ -143,7 +143,7 @@ msgstr ""
 "code source)</a> !"
 
 #: templates/seafform/form_as_form.html:42
-#: templates/seafform/form_as_table.html:156
+#: templates/seafform/form_as_table.html:158
 msgid ""
 "\n"
 "        <span class=\"required\"></span> : <em>champs obligatoires.</em>\n"
@@ -154,26 +154,26 @@ msgstr ""
 
 #: templates/seafform/form_as_form.html:77
 #: templates/seafform/form_as_table.html:69
-#: templates/seafform/form_as_table.html:145 templates/seafform/new.html:69
+#: templates/seafform/form_as_table.html:147 templates/seafform/new.html:72
 #: templates/seafform/rowedit.html:21
 msgid "Submit"
 msgstr "Valider"
 
-#: templates/seafform/form_as_table.html:52 templates/seafform/private.html:100
+#: templates/seafform/form_as_table.html:52 templates/seafform/private.html:103
 msgid "Action"
 msgstr "Action"
 
 #: templates/seafform/form_as_table.html:93
-#: templates/seafform/form_as_table.html:172
-#: templates/seafform/form_as_table.html:190
+#: templates/seafform/form_as_table.html:174
+#: templates/seafform/form_as_table.html:192
 msgid "Loading..."
 msgstr "Chargement..."
 
-#: templates/seafform/form_as_table.html:114
+#: templates/seafform/form_as_table.html:115
 msgid "(maximum)"
 msgstr "(maximum)"
 
-#: templates/seafform/form_as_table.html:120
+#: templates/seafform/form_as_table.html:121
 #, python-format
 msgid ""
 "\n"
@@ -184,11 +184,36 @@ msgstr ""
 "%(nb)s réponses\n"
 " "
 
-#: templates/seafform/index.html:21
+#: templates/seafform/index.html:14 templates/seafform/new.html:17
+#: templates/seafform/private.html:13
+msgid "Toggle navigation"
+msgstr "Basculer la navigation"
+
+#: templates/seafform/index.html:26 templates/seafform/index.html.py:84
+#: templates/seafform/new.html:29 templates/seafform/private.html:25
+msgid "Public forms"
+msgstr "Formulaires publics"
+
+#: templates/seafform/index.html:28 templates/seafform/new.html:31
+#: templates/seafform/private.html:27
+msgid "New form"
+msgstr "Nouveau formulaire"
+
+#: templates/seafform/index.html:29 templates/seafform/new.html:32
+#: templates/seafform/private.html:28
+msgid "Open Seafile"
+msgstr "Ouvrir Seafile"
+
+#: templates/seafform/index.html:30 templates/seafform/new.html:33
+#: templates/seafform/private.html:29
+msgid "Logout"
+msgstr "Se déconnecter"
+
+#: templates/seafform/index.html:51
 msgid "Survey? Poll? Inscriptions?"
 msgstr "Un sondage ? Une enquête ? Des inscriptions ?"
 
-#: templates/seafform/index.html:23
+#: templates/seafform/index.html:53
 msgid ""
 "\n"
 "            Easily create a form from a \n"
@@ -203,63 +228,54 @@ msgstr ""
 "libreoffice.org/\">LibreOffice</a>, et récupérez directement les résultats "
 "dans <a href=\"http://www.seafile.com/\" >Seafile</a> !"
 
-#: templates/seafform/index.html:37
+#: templates/seafform/index.html:64 templates/seafform/new.html:43
+#: templates/seafform/private.html:38 templates/seafform/private.html.py:56
+msgid "Create a new form"
+msgstr "Créer un nouveau formulaire"
+
+#: templates/seafform/index.html:75
 msgid "So long, and thanks for all the fish!"
 msgstr "Salut, et encore merci pour le poisson !"
 
-#: templates/seafform/index.html:43
+#: templates/seafform/index.html:106
+msgid "No public form available"
+msgstr "Pas de formulaires publics disponibles"
+
+#: templates/seafform/index.html:116
+msgid "Log in to view forms or create a new one"
+msgstr "Se connecter pour voir les formulaires publics ou en créer un nouveau"
+
+#: templates/seafform/index.html:118
 msgid "Log in to create a form"
 msgstr "Se connecter pour créer un formulaire"
 
-#: templates/seafform/index.html:47
+#: templates/seafform/index.html:124
 #, python-format
 msgid ""
 "\n"
 "                You must have a Seafile account on\n"
 "                <a href=\"%(seaf_root)s\">%(seaf_root)s</a>, and use the "
 "same\n"
-"                credentials to create a form.\n"
+"                credentials to log in.\n"
 "                "
 msgstr ""
 "\n"
 "Vous devez avoir un compte sur le Seafile <a href=\"%(seaf_root)s\">"
-"%(seaf_root)s</a>, et utiliser les mêmes identifiants pour créer un "
-"formulaire."
+"%(seaf_root)s</a>, et utiliser les mêmes identifiants pour vous connecter."
 
-#: templates/seafform/index.html:57
+#: templates/seafform/index.html:134
 msgid "Error:"
 msgstr "Erreur :"
 
-#: templates/seafform/index.html:58
+#: templates/seafform/index.html:135
 msgid "credentials not valid"
 msgstr "identifiants invalides"
 
-#: templates/seafform/index.html:65
+#: templates/seafform/index.html:142
 msgid "Login"
 msgstr "Se connecter"
 
-#: templates/seafform/new.html:17 templates/seafform/private.html:13
-msgid "Toggle navigation"
-msgstr "Basculer la navigation"
-
-#: templates/seafform/new.html:28 templates/seafform/private.html:24
-msgid "New form"
-msgstr "Nouveau formulaire"
-
-#: templates/seafform/new.html:29 templates/seafform/private.html:25
-msgid "Open Seafile"
-msgstr "Ouvrir Seafile"
-
-#: templates/seafform/new.html:30 templates/seafform/private.html:26
-msgid "Logout"
-msgstr "Se déconnecter"
-
-#: templates/seafform/new.html:40 templates/seafform/private.html:35
-#: templates/seafform/private.html.py:53
-msgid "Create a new form"
-msgstr "Créer un nouveau formulaire"
-
-#: templates/seafform/new.html:45
+#: templates/seafform/new.html:48
 msgid ""
 "\n"
 "    Choose in your Seafile the LibreOffice spreadsheet (.ods) which will be\n"
@@ -270,23 +286,23 @@ msgstr ""
 "Sélectionnez dans votre Seafile le tableur LibreOffice (.ods) qui sera à la "
 "base du formulaire :"
 
-#: templates/seafform/new.html:54
+#: templates/seafform/new.html:57
 msgid "Conexion to Seafile..."
 msgstr "Connexion à Seafile..."
 
-#: templates/seafform/new.html:62 templates/seafform/rowedit.html:24
+#: templates/seafform/new.html:65 templates/seafform/rowedit.html:24
 msgid "Cancel"
 msgstr "Annuler"
 
-#: templates/seafform/private.html:38
+#: templates/seafform/private.html:41
 msgid "1. create the spreadsheet with questions"
 msgstr "1. créer le tableur avec les questions"
 
-#: templates/seafform/private.html:41
+#: templates/seafform/private.html:44
 msgid "Forms templates"
 msgstr "Modèles de formulaires"
 
-#: templates/seafform/private.html:44
+#: templates/seafform/private.html:47
 msgid ""
 "\n"
 "        You just need to download a template, to edit it, and to "
@@ -298,19 +314,19 @@ msgstr ""
 "Il suffit de télécharger un modèle, de le modifier, et de le synchroniser "
 "dans Seafile."
 
-#: templates/seafform/private.html:50
+#: templates/seafform/private.html:53
 msgid "2. create the form"
 msgstr "2. créer le formulaire"
 
-#: templates/seafform/private.html:56
+#: templates/seafform/private.html:59
 msgid "Select the right spreadsheet."
 msgstr "Indiquez quel est le tableur en question."
 
-#: templates/seafform/private.html:59
+#: templates/seafform/private.html:62
 msgid "3. ask people to answer"
 msgstr "3. invitez vos amis à répondre"
 
-#: templates/seafform/private.html:62
+#: templates/seafform/private.html:65
 msgid ""
 "\n"
 "        Send the form's public address to all affected persons!\n"
@@ -319,7 +335,7 @@ msgstr ""
 "\n"
 "Envoyez l'adresse publique du formulaire à toutes les personnes concernées !"
 
-#: templates/seafform/private.html:72
+#: templates/seafform/private.html:75
 #, python-format
 msgid ""
 "\n"
@@ -331,7 +347,7 @@ msgstr ""
 "Le formulaire <q>%(title)s</q> a été créé avec succès ! Communiquez "
 "l'adresse suivante à vos correspondants :"
 
-#: templates/seafform/private.html:88
+#: templates/seafform/private.html:91
 #, python-format
 msgid ""
 "\n"
@@ -343,21 +359,21 @@ msgstr ""
 "Le formulaire <q>%(deleted)s</q> a bien été supprimé. Son lien public a été "
 "désactivé."
 
-#: templates/seafform/private.html:97
+#: templates/seafform/private.html:100
 msgid "Title"
 msgstr "Titre"
 
-#: templates/seafform/private.html:97
+#: templates/seafform/private.html:100
 msgid "Address"
 msgstr "Adresse"
 
-#: templates/seafform/private.html:121
+#: templates/seafform/private.html:124
 msgid "Delete"
 msgstr "Supprimer"
 
 #: templates/seafform/thanks.html:4
 msgid "Thanks!"
-msgstr ""
+msgstr "Merci !"
 
 #: templates/seafform/thanks.html:30
 msgid "Thank you for taking time to answer this form!"

@@ -5,8 +5,6 @@ main
 ----
 
 - what if the user change its seafile password -> seafform will keep using the old one
-- allow to change the public option with the ods and with admin
-- auto update title and public info when loading the ods file
 
 seafform module
 ---------------
