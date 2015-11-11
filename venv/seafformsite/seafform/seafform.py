@@ -379,6 +379,10 @@ class SeafForm:
                     datash.append_rows(1)
                     column = datash.column(colid)
                     column[rowid].set_value(value)
+                
+                # convert to boolean for cached data
+                if self.fields[colid-1].ident.startswith('check') and value:
+                    value = bool(value)
                 try:
                     self.data[rowid - HEADERS_ROW][colid - 1] = value
                 except IndexError:
