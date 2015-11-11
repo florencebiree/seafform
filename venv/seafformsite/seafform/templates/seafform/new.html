@@ -28,7 +28,7 @@
         {% if allow_public %}
             <li><a href="{% url 'index' %}">{% trans "Public forms" %}</a></li>
         {% endif %}
-        <li class="active"><a href="{% url 'new' %}">{% trans "New form" %}</a></li>
+        <li class="active"><a href="{% url 'new' %}">{% trans "My forms" %}</a></li>
         <li><a href="{{ user.seafileuser.seafroot }}" target="_blank">{% trans "Open Seafile" %}</a></li>
         <li><a href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
       </ul>

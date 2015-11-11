@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-07 10:24+0100\n"
+"POT-Creation-Date: 2015-11-11 17:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Florian Birée <florian@biree.name>\n"
 "Language-Team: French\n"
@@ -189,15 +189,15 @@ msgstr ""
 msgid "Toggle navigation"
 msgstr "Basculer la navigation"
 
-#: templates/seafform/index.html:26 templates/seafform/index.html.py:84
+#: templates/seafform/index.html:26 templates/seafform/index.html.py:77
 #: templates/seafform/new.html:29 templates/seafform/private.html:25
 msgid "Public forms"
 msgstr "Formulaires publics"
 
 #: templates/seafform/index.html:28 templates/seafform/new.html:31
 #: templates/seafform/private.html:27
-msgid "New form"
-msgstr "Nouveau formulaire"
+msgid "My forms"
+msgstr "Mes formulaires"
 
 #: templates/seafform/index.html:29 templates/seafform/new.html:32
 #: templates/seafform/private.html:28
@@ -233,23 +233,23 @@ msgstr ""
 msgid "Create a new form"
 msgstr "Créer un nouveau formulaire"
 
-#: templates/seafform/index.html:75
-msgid "So long, and thanks for all the fish!"
-msgstr "Salut, et encore merci pour le poisson !"
-
-#: templates/seafform/index.html:106
+#: templates/seafform/index.html:99
 msgid "No public form available"
 msgstr "Pas de formulaires publics disponibles"
 
-#: templates/seafform/index.html:116
+#: templates/seafform/index.html:107
+msgid "So long, and thanks for all the fish!"
+msgstr "Salut, et encore merci pour le poisson !"
+
+#: templates/seafform/index.html:117
 msgid "Log in to view forms or create a new one"
 msgstr "Se connecter pour voir les formulaires publics ou en créer un nouveau"
 
-#: templates/seafform/index.html:118
+#: templates/seafform/index.html:119
 msgid "Log in to create a form"
 msgstr "Se connecter pour créer un formulaire"
 
-#: templates/seafform/index.html:124
+#: templates/seafform/index.html:125
 #, python-format
 msgid ""
 "\n"
@@ -263,15 +263,15 @@ msgstr ""
 "Vous devez avoir un compte sur le Seafile <a href=\"%(seaf_root)s\">"
 "%(seaf_root)s</a>, et utiliser les mêmes identifiants pour vous connecter."
 
-#: templates/seafform/index.html:134
+#: templates/seafform/index.html:135
 msgid "Error:"
 msgstr "Erreur :"
 
-#: templates/seafform/index.html:135
+#: templates/seafform/index.html:136
 msgid "credentials not valid"
 msgstr "identifiants invalides"
 
-#: templates/seafform/index.html:142
+#: templates/seafform/index.html:143
 msgid "Login"
 msgstr "Se connecter"
 
@@ -378,3 +378,6 @@ msgstr "Merci !"
 #: templates/seafform/thanks.html:30
 msgid "Thank you for taking time to answer this form!"
 msgstr "Merci d'avoir pris le temps de répondre à ce questionnaire !"
+
+#~ msgid "New form"
+#~ msgstr "Nouveau formulaire"
