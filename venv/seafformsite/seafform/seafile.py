@@ -469,12 +469,11 @@ class Seafile:
                 #'filename': (None, filename),
                 'target_file': (None, filepath),
                 'file': (filename, fileo, 'application/octet-stream'),
-            },
-            verify=self.verify,
+            }
         )
         prepped = self._multipart_filname_patching(req.prepare(), filename)
         
-        r = s.send(prepped, stream=False)
+        r = s.send(prepped, stream=False, verify=self.verify)
         try:
             r.raise_for_status()
         except HTTPError:
