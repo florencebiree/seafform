@@ -28,7 +28,7 @@ __license__ = "AGPLv3"
 __copyright__ = "Copyright © 2015, Florian Birée <florian@biree.name>"
 
 import os
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 import itertools
 from django.utils.text import slugify
 from django.core.urlresolvers import reverse
@@ -261,7 +261,8 @@ def repo_id_from_name(seaf, repo_name):
 def lsdir(request):
     """Return the list of files in a Seafile directory"""
     if request.method == 'POST':
-        path = request.POST['dir']
+        # dirty hack
+        path = unquote(unquote(request.POST['dir'], encoding='latin9'))
         if settings.LOCAL:
             abspath = settings.LOCAL_ROOT.rstrip('/') +  path
             result = [
@@ -292,7 +293,7 @@ def lsdir(request):
                     {
                         'name': repo['name'],
                         'type': repo['type'],
-                        'path': '/%s/' % repo['name'],
+                        'path': quote('/%s/' % repo['name']),
                    } for repo in repo_list 
                 ]
             else:
@@ -303,9 +304,9 @@ def lsdir(request):
                     {
                         'name': node['name'],
                         'type': node['type'],
-                        'path': (
+                        'path': quote( (
                             path.rstrip('/') + '/' + node['name'] + 
-                            ('/' if node['type'] == 'dir' else '')
+                            ('/' if node['type'] == 'dir' else '') )
                         )
                     } for node in ls
                     if (node['type'] == 'dir' or node['name'].endswith('.ods'))
