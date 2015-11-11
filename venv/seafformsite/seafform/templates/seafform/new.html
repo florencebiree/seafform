@@ -85,7 +85,7 @@
         $(document).ready( function() {
             $('#seaf-browser').fileTree({
                 root: '/',
-                script: '/private/lsdir/',
+                script: '{% url "lsdir" %}',
             }, function(file, filenode) {
                 $('.selected-file').removeClass('bg-info selected-file')
                 $(filenode).addClass('bg-info selected-file'),
