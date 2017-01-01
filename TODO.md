@@ -5,7 +5,7 @@ main
 ----
 
 - what if the user change its seafile password -> seafform will keep using the old one
-- transform url unto link in description or static field
+- transform url into link in description or static field
 
 seafform module
 ---------------
@@ -30,3 +30,10 @@ ods parser
 ----------
 
 - provide error description the form is broken
+
+admin space
+-----------
+
+- form links are orange on an orange background
+- valid an ods selection using double-click
+
