@@ -18,6 +18,7 @@ view as table
 - if long table, may be fixed headers?
 - when a line is saved (green sucess background), viewing bug on the right
 - if table to wide, the scroll bar at the bottom may be hidden, and need to scrool down
+- when some field has a description, and others not, fields are not aligned.
 
 private space
 -------------
