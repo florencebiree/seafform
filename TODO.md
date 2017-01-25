@@ -31,10 +31,12 @@ ods parser
 ----------
 
 - provide error description the form is broken
+- when two columns have the same name, only the first one is displayed
 
 admin space
 -----------
 
 - form links are orange on an orange background
 - valid an ods selection using double-click
+- if a file is moved in Seafile, signal the problem, and allow to set an new path
 
