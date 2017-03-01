@@ -34,7 +34,7 @@
         
         <h1>{{ seafform.title }}</h1>
         
-        {{ seafform.description|linebreaks }}
+        {{ seafform.description|urlize|linebreaks }}
         
     </div>
     
@@ -64,7 +64,7 @@
                     <h2>{{ field.label }}</h2>
                     {% if field.help_text %}
                         <p class="help-block">
-                        {{ field.help_text|safe }}
+                        {{ field.help_text|urlize }}
                         </p>
                     {% endif %}
                 {% endif %}

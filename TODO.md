@@ -5,7 +5,6 @@ main
 ----
 
 - what if the user change its seafile password -> seafform will keep using the old one
-- transform url into link in description or static field
 
 seafform module
 ---------------
