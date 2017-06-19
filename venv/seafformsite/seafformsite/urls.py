@@ -2,7 +2,7 @@
 ###############################################################################
 #       seafformsite/urls.py
 #       
-#       Copyright © 2015, Florian Birée <florian@biree.name>
+#       Copyright © 2017, Flo Birée <flo@biree.name>
 #       
 #       This file is a part of seafform.
 #       
@@ -21,15 +21,15 @@
 #       
 ###############################################################################
 
-__author__ = "Florian Birée"
+__author__ = "Flo Birée"
 __version__ = "0.2"
 __license__ = "AGPLv3"
-__copyright__ = "Copyright © 2015, Florian Birée <florian@biree.name>"
+__copyright__ = "Copyright © 2017, Flo Birée <flo@biree.name>"
 
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.contrib import admin
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('seafform.urls')),
-)
+]

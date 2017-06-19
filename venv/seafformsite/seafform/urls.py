@@ -2,7 +2,7 @@
 ###############################################################################
 #       seafform/urls.py
 #       
-#       Copyright © 2015, Florian Birée <florian@biree.name>
+#       Copyright © 2017, Flo Birée <flo@biree.name>
 #       
 #       This file is a part of seafform.
 #       
@@ -22,16 +22,16 @@
 ###############################################################################
 """Seafform URL dispatcher"""
 
-__author__ = "Florian Birée"
+__author__ = "Flo Birée"
 __version__ = "0.2"
 __license__ = "AGPLv3"
-__copyright__ = "Copyright © 2015, Florian Birée <florian@biree.name>"
+__copyright__ = "Copyright © 2017, Flo Birée <flo@biree.name>"
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from seafform import views
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', views.index, name='index'), 
     url(r'^private/$', views.private, name='private'),
     url(r'^private/logout/$', views.logout_view, name='logout'),
@@ -40,4 +40,4 @@ urlpatterns = patterns('',
     url(r'^form/(?P<formid>[^/]*)/$', views.formview, name='form'),
     url(r'^form/(?P<formid>[^/]*)/thanks/$', views.thanks, name='thanks'),
     url(r'^form/(?P<formid>[^/]*)/(?P<rowid>\d*)/$', views.formrowedit, name='rowedit'),
-)
+]
