@@ -4,7 +4,7 @@
 
 - Python 3
 - Python virtual environments
-- Django 1.7
+- Django 1.10
 - Python3-lxml
 - Python3-requests
 - Python3-ezodf (not in Debian packages)
@@ -31,10 +31,10 @@ username and passwords of Seafile users, you should only install SeafForm either
     $ git clone https://github.com/florianbiree/seafform.git
 
 ### Dependencies
-*here are the Debian/Jessie packages, if needed libs are not packaged in
+*here are the Debian/Stretch packages, if needed libs are not packaged in
 you distribution, install them using pip at the next step*
 
-    # apt-get install python3 python3-virtualenv python3-django python3-bootstrapform python3-lxml python3-requests
+    # apt-get install python3 python3-virtualenv python3-django python3-bootstrapform python3-lxml python3-requests virtualenv
 
 ### Initialize the virtual environment and dependencies
 
