@@ -28,7 +28,7 @@ username and passwords of Seafile users, you should only install SeafForm either
 *put it in a directory not in your server document root, lets says:*
 
     $ cd /var/webapps/
-    $ git clone https://github.com/florianbiree/seafform.git
+    $ git clone https://github.com/flobiree/seafform.git
 
 ### Dependencies
 *here are the Debian/Stretch packages, if needed libs are not packaged in
