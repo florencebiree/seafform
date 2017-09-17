@@ -179,7 +179,7 @@ def new(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         path = unquote(request.POST.get('path', ''))
-        print('new/path=' + path)
+        #print('new/path=' + path)
         if path.endswith('.ods'):
             if settings.LOCAL:
                 filepath = os.path.join(settings.LOCAL_ROOT, path.lstrip('/'))
