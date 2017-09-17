@@ -25,6 +25,8 @@ private space
 - improve text next to "choose the file" button
 - newly created form as an orange url on an orange background
 - select ods file with double-clic
+- if LibreOffice is integrated with Seafile, change the way to
+  create a new form, eg Select a template -> Edit it
 
 ods parser
 ----------
