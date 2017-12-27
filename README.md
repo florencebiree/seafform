@@ -1,4 +1,4 @@
-# Seafile forms
+# Seafile forms (old home page)
 
 seafform repository has moved to framagit.org!
 
