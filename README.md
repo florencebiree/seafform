@@ -9,5 +9,7 @@ And the new git repository url:
 https://framagit.org/flobiree/seafform.git
 
 Please follow the project to his new home!
+
 Thank you
+
 Flo.
